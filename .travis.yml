@@ -1,14 +1,17 @@
 sudo: required
 language: java
-jdk: 
+jdk:
   - oraclejdk8
 services:
   - docker
 cache:
   directories:
   - $HOME/.m2
+script:
+  - ./mvnw test -B
+  - bash <(curl -s https://codecov.io/bash)
 after_script:
-  cat /tmp/dockerTestLogs/*
+  - cat /tmp/dockerTestLogs/*
 
 #addons:
 #  apt:
