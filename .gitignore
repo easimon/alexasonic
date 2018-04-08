@@ -1,0 +1,13 @@
+# IDEs 
+.classpath
+.factorypath
+.project
+.settings
+.vscode
+.apt_generated
+
+# Build folder
+target
+
+# Local configuration
+application.yml

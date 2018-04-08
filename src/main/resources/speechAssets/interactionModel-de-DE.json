@@ -1,0 +1,77 @@
+{
+    "languageModel": {
+        "invocationName": "airsonic",
+        "intents": [
+            {
+                "name": "AMAZON.CancelIntent",
+                "slots": [],
+                "samples": [
+                    "nein"
+                ]
+            },
+            {
+                "name": "AMAZON.HelpIntent",
+                "slots": [],
+                "samples": [
+                    "hilfe"
+                ]
+            },
+            {
+                "name": "AMAZON.PauseIntent",
+                "slots": [],
+                "samples": [
+                  "pause"
+                ]
+            },
+            {
+                "name": "AMAZON.NextIntent",
+                "slots": [],
+                "samples": []
+            },
+            {
+                "name": "AMAZON.PreviousIntent",
+                "slots": [],
+                "samples": []
+            },
+            {
+                "name": "AMAZON.ResumeIntent",
+                "slots": [],
+                "samples": [
+                  "weiter",
+                  "fortsetzen"
+                ]
+            },
+            {
+                "name": "AMAZON.StopIntent",
+                "slots": [],
+                "samples": [
+                    "stop"
+                ]
+            },
+            {
+                "name": "PlayRandomSongs",
+                "slots": [],
+                "samples": [
+                    "spiel ein paar Lieder",
+                    "spiel ein paar Songs",
+                    "spiele ein paar Songs",
+                    "spiele ein paar Lieder",
+                    "spiele Musik"
+                ]
+            },
+                        {
+                "name": "PlayArtistRadio",
+                "slots": [],
+                "samples": [
+                    "spiel sowas wie",
+                    "spiel ein paar Songs",
+                    "spiele ein paar Songs",
+                    "spiele ein paar Lieder",
+                    "spiele Musik"
+                ]
+            }
+            
+        ],
+        "types": []
+    }
+}

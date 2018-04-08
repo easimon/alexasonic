@@ -1,0 +1,10 @@
+subsonic:
+  client:
+    url: http://localhost:4040/
+    username: admin
+    password: admin
+    
+application:
+  db: 
+    path: /tmp/alexasonic-test
+    persistenceMode: temporary
