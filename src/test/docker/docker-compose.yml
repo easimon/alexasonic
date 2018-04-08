@@ -1,11 +1,10 @@
-version: '3.6'
+version: '3.2'
 
 services:
   airsonic:
     image: airsonic/airsonic:10.1.1-RELEASE
-    user: "1000"
     ports:
-      - "4040:4040"
+      - "4040"
     volumes:
       - type: bind
         target: /airsonic/music

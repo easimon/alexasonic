@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.subsonic.restapi.ArtistID3;
@@ -13,25 +14,34 @@ import org.subsonic.restapi.Child;
 import org.subsonic.restapi.ResponseStatus;
 import org.subsonic.restapi.Songs;
 
+import com.palantir.docker.compose.DockerComposeRule;
+
 import click.dobel.alexasonic.configuration.SubsonicCredentials;
-import click.dobel.alexasonic.repository.SubsonicCredentialsRepository;
 import click.dobel.alexasonic.restclient.requestbuilders.RequestBuilders;
 import click.dobel.alexasonic.restclient.responseconverters.ResponseConverters;
 import click.dobel.alexasonic.test.AlexaSonicIntegrationTest;
 
 public class SubsonicRestClientTest extends AlexaSonicIntegrationTest {
 
-    @Autowired
-    private SubsonicRestClient restClient;
+    @ClassRule
+    public static DockerComposeRule docker = dockerClassRule();
 
     @Autowired
-    private SubsonicCredentialsRepository credentialsRepository;
+    private SubsonicRestClient restClient;
 
     private SubsonicCredentials credentials;
 
     @Before
-    public void getCredentials() {
-        this.credentials = credentialsRepository.getCredentialsForUser("does_not_care_yet");
+    public void createCredentials() {
+        final String airsonicUrl = docker //
+                .containers().container(CONTAINER_AIRSONIC).port(CONTAINER_AIRSONIC_PORT) //
+                .inFormat("http://$HOST:$EXTERNAL_PORT/");
+
+        final SubsonicCredentials credentials = new SubsonicCredentials();
+        credentials.setUsername("admin");
+        credentials.setPassword("admin");
+        credentials.setUrl(airsonicUrl);
+        this.credentials = credentials;
     }
 
     //
