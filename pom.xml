@@ -26,8 +26,9 @@
 
         <jaxb-basics.version>1.11.1</jaxb-basics.version>
         <alexa-skills-kit.version>1.8.1</alexa-skills-kit.version>
-        <jsondb.version>1.0.36</jsondb.version>
+        <jsondb.version>1.0.64</jsondb.version>
         <spectrum.version>1.2.0</spectrum.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
     </properties>
 
     <repositories>
@@ -37,6 +38,16 @@
             <url> https://dl.bintray.com/palantir/releases/</url>
         </repository>
     </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
