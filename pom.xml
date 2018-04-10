@@ -29,6 +29,8 @@
         <jsondb.version>1.0.64</jsondb.version>
         <spectrum.version>1.2.0</spectrum.version>
         <commons-collections.version>3.2.2</commons-collections.version>
+        <docker-compose-rule.version>0.33.0</docker-compose-rule.version>
+        <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
     </properties>
 
     <repositories>
@@ -91,12 +93,6 @@
             <groupId>io.jsondb</groupId>
             <artifactId>jsondb-core</artifactId>
             <version>${jsondb.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.logging.log4j</groupId>
-                    <artifactId>log4j-slf4j-impl</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -121,7 +117,7 @@
         <dependency>
             <groupId>com.palantir.docker.compose</groupId>
             <artifactId>docker-compose-rule-junit4</artifactId>
-            <version>0.33.0</version>
+            <version>${docker-compose-rule.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -136,7 +132,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.1</version>
+                <version>${jacoco-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
