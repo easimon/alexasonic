@@ -19,6 +19,9 @@ import com.amazon.speech.ui.Reprompt;
 
 public final class SpeechletResponseUtils {
 
+    private SpeechletResponseUtils() {
+    }
+
     private static List<Directive> ensureDirectives(final SpeechletResponse response) {
         Objects.requireNonNull(response, "Response may not be null.");
         return Optional.ofNullable(response.getDirectives()) //
@@ -34,13 +37,12 @@ public final class SpeechletResponseUtils {
         return response;
     }
 
-    private static PlayDirective createPlayDirective(final String url, final String previousUrl,
-            final PlayBehavior playBehaviour) {
+    private static PlayDirective createPlayDirective(final String url, final String previousUrl, final PlayBehavior playBehaviour) {
         return createPlayDirective(url, previousUrl, null, playBehaviour);
     }
 
-    private static PlayDirective createPlayDirective(final String url, final String previousUrl,
-            final Long offsetInMilliseconds, final PlayBehavior playBehaviour) {
+    private static Stream createStream(final String url, final String previousUrl, final Long offsetInMilliseconds,
+            final PlayBehavior playBehaviour) {
         final Stream stream = new Stream();
         stream.setUrl(url);
         stream.setToken(url);
@@ -50,6 +52,12 @@ public final class SpeechletResponseUtils {
         if (offsetInMilliseconds != null && offsetInMilliseconds > 0) {
             stream.setOffsetInMilliseconds(offsetInMilliseconds);
         }
+        return stream;
+    }
+
+    private static PlayDirective createPlayDirective(final String url, final String previousUrl, final Long offsetInMilliseconds,
+            final PlayBehavior playBehaviour) {
+        final Stream stream = createStream(url, previousUrl, offsetInMilliseconds, playBehaviour);
 
         final AudioItem audioItem = new AudioItem();
         audioItem.setStream(stream);
@@ -64,8 +72,8 @@ public final class SpeechletResponseUtils {
         return addPlayDirective(response, url, null, playBehaviour);
     }
 
-    public static SpeechletResponse addPlayDirective(final SpeechletResponse response, final String url,
-            final String previousUrl, final PlayBehavior playBehaviour) {
+    public static SpeechletResponse addPlayDirective(final SpeechletResponse response, final String url, final String previousUrl,
+            final PlayBehavior playBehaviour) {
         return addDirective(response, createPlayDirective(url, previousUrl, playBehaviour));
     }
 
@@ -82,13 +90,12 @@ public final class SpeechletResponseUtils {
         return newPlayDirective(url, (String) null, playBehaviour);
     }
 
-    public static SpeechletResponse newPlayDirective(final String url, final String previousUrl,
-            final PlayBehavior playBehaviour) {
+    public static SpeechletResponse newPlayDirective(final String url, final String previousUrl, final PlayBehavior playBehaviour) {
         return addPlayDirective(new SpeechletResponse(), url, previousUrl, playBehaviour);
     }
 
-    public static SpeechletResponse newPlayDirective(final String url, final String previousUrl,
-            final Long offsetInMilliseconds, final PlayBehavior playBehaviour) {
+    public static SpeechletResponse newPlayDirective(final String url, final String previousUrl, final Long offsetInMilliseconds,
+            final PlayBehavior playBehaviour) {
         return addPlayDirective(new SpeechletResponse(), offsetInMilliseconds, url, previousUrl, playBehaviour);
     }
 
@@ -110,8 +117,7 @@ public final class SpeechletResponseUtils {
     public static SpeechletResponse newPlaintextTellResponse(final String message) {
         final PlainTextOutputSpeech outputSpeech = new PlainTextOutputSpeech();
         outputSpeech.setText(message);
-        final SpeechletResponse response = SpeechletResponse.newTellResponse(outputSpeech);
-        return response;
+        return SpeechletResponse.newTellResponse(outputSpeech);
     }
 
     public static SpeechletResponse newPlaintextAskResponse(final String message, final String repromptMessage) {
@@ -124,8 +130,7 @@ public final class SpeechletResponseUtils {
         final Reprompt reprompt = new Reprompt();
         reprompt.setOutputSpeech(repromptSpeech);
 
-        final SpeechletResponse response = SpeechletResponse.newAskResponse(outputSpeech, reprompt);
-        return response;
+        return SpeechletResponse.newAskResponse(outputSpeech, reprompt);
     }
 
 }

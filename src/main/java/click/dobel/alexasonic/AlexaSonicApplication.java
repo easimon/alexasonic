@@ -32,10 +32,10 @@ public class AlexaSonicApplication {
     }
 
     @Bean
-    public ServletRegistrationBean<SpeechletServlet> registerServlet(final AlexaSonicSpeechlet alexaSonicSpeechlet) {
+    public ServletRegistrationBean<SpeechletServlet> registerServlet(final AlexaSonicSpeechlet speechlet) {
         registerApplicationIds();
         final SpeechletServlet speechletServlet = new SpeechletServlet();
-        speechletServlet.setSpeechlet(alexaSonicSpeechlet);
+        speechletServlet.setSpeechlet(speechlet);
 
         return new ServletRegistrationBean<>(speechletServlet, "/alexa");
     }

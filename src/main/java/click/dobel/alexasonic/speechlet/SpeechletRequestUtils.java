@@ -23,15 +23,18 @@ public final class SpeechletRequestUtils {
     private static final String MESSAGE_NODEVICEID = RequestContext.MESSAGE_NODEVICEID;
     public static final String MESSAGEKEY_NOT_PLAYING = "AudioPlayer.NotPlaying";
 
+    private SpeechletRequestUtils() {
+    }
+
     private static Optional<SystemState> getSystemState(final SpeechletRequestEnvelope<?> requestEnvelope) {
         return Optional.of(requestEnvelope) //
                 .map(envelope -> envelope.getContext()) //
                 .map(context -> context.getState(SystemInterface.class, SystemState.class));
     }
 
-    private static String shortenId(final String id) {
+    private static String shortenId(final String theId) {
         // TODO: are rightmost characters variable enough?
-        return StringUtils.right(id, 8);
+        return StringUtils.right(theId, 8);
     }
 
     public static String getUserId(final SpeechletRequestEnvelope<?> requestEnvelope) {
@@ -65,19 +68,18 @@ public final class SpeechletRequestUtils {
     public static Optional<AudioPlayerState> getAudioPlayerState(
             final SpeechletRequestEnvelope<? extends SpeechletRequest> requestEnvelope) {
         return Optional.of(requestEnvelope) //
-                .map(e -> e.getContext()) //
-                .map(c -> c.getState(AudioPlayerInterface.class, AudioPlayerState.class));
+                .map(envelope -> envelope.getContext()) //
+                .map(context -> context.getState(AudioPlayerInterface.class, AudioPlayerState.class));
     }
 
-    public static String getAudioPlayerToken(
-            final SpeechletRequestEnvelope<? extends SpeechletRequest> requestEnvelope) {
-        return getAudioPlayerState(requestEnvelope).map(s -> s.getToken()) //
+    public static String getAudioPlayerToken(final SpeechletRequestEnvelope<? extends SpeechletRequest> requestEnvelope) {
+        return getAudioPlayerState(requestEnvelope).map(state -> state.getToken()) //
                 .orElseThrow(() -> new AlexaSonicException(MESSAGEKEY_NOT_PLAYING));
     }
 
     public static long getAudioPlayerOffsetInMilliseconds(
             final SpeechletRequestEnvelope<? extends SpeechletRequest> requestEnvelope) {
-        return getAudioPlayerState(requestEnvelope).map(s -> s.getOffsetInMilliseconds()) //
+        return getAudioPlayerState(requestEnvelope).map(state -> state.getOffsetInMilliseconds()) //
                 .orElseThrow(() -> new AlexaSonicException(MESSAGEKEY_NOT_PLAYING));
     }
 

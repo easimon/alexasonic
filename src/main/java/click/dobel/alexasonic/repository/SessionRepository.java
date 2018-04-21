@@ -22,18 +22,19 @@ public class SessionRepository {
 
     public DeviceSession getDeviceSession(final String deviceId) {
         final DeviceSession session = jsonDbTemplate.findById(deviceId, DeviceSession.class);
-        if (session != null) {
-            LOGGER.debug("DeviceSession found.");
-            return session;
-        } else {
+        if (session == null) {
             LOGGER.debug("No DeviceSession found, creating new one.");
             return new DeviceSession(deviceId);
+        } else {
+            LOGGER.debug("DeviceSession found.");
+            return session;
         }
     }
 
     public void saveDeviceSession(final DeviceSession deviceSession) {
-        if (deviceSession != null)
+        if (deviceSession != null) {
             jsonDbTemplate.upsert(deviceSession);
+        }
     }
 
 }

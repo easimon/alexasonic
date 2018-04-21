@@ -42,8 +42,8 @@ public class PlayRandomSongsIntentRequestHandler implements IntentRequestHandler
     private final Messages messages;
 
     @Autowired
-    public PlayRandomSongsIntentRequestHandler(final SubsonicRestClient subsonicRestClient,
-            final ErrorHandler errorHandler, final Messages messages) {
+    public PlayRandomSongsIntentRequestHandler(final SubsonicRestClient subsonicRestClient, final ErrorHandler errorHandler,
+            final Messages messages) {
         this.subsonicRestClient = subsonicRestClient;
         this.errorHandler = errorHandler;
         this.messages = messages;
@@ -63,10 +63,8 @@ public class PlayRandomSongsIntentRequestHandler implements IntentRequestHandler
 
         final SubsonicCredentials subsonicCredentials = context.requireSubsonicCredentials();
 
-        final GetRandomSongsRequestBuilder randomSongsRequest = new GetRandomSongsRequestBuilder(subsonicCredentials)
-                .withSize(50);
-        final FlatteningSubsonicResponseConverter<Songs, List<Child>> randomSongsConverter = ResponseConverters
-                .getRandomSongs();
+        final GetRandomSongsRequestBuilder randomSongsRequest = new GetRandomSongsRequestBuilder(subsonicCredentials).withSize(50);
+        final FlatteningSubsonicResponseConverter<Songs, List<Child>> randomSongsConverter = ResponseConverters.getRandomSongs();
 
         final List<Child> songs = subsonicRestClient.executeAndFlatten(randomSongsRequest, randomSongsConverter);
 
@@ -98,7 +96,7 @@ public class PlayRandomSongsIntentRequestHandler implements IntentRequestHandler
         final SimpleCard card = new SimpleCard();
         card.setTitle(messages.getMessage(MESSAGEKEY_CARD_TITLE, context.getLocale()));
         final List<String> songTitles = songs.stream() //
-                .map(s -> String.format("%s: %s (%s)", s.getArtist(), s.getTitle(), s.getYear())) //
+                .map(song -> String.format("%s: %s (%s)", song.getArtist(), song.getTitle(), song.getYear())) //
                 .collect(Collectors.toList());
 
         card.setContent(StringUtils.join(songTitles, "\n"));

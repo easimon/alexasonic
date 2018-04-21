@@ -38,8 +38,10 @@ public class ErrorHandlerSpecTest {
 
             beforeEach(() -> {
                 reset(messages, requestContext);
+
                 when(messages.getMessage(eq(TEST_MESSAGEKEY), anyString(), eq(Locale.ENGLISH), any(Object[].class))) //
                         .thenReturn(TEST_ERROR_MESSAGE_ENGLISH);
+
                 when(messages.getMessage(eq(TEST_MESSAGEKEY), anyString(), eq(Locale.GERMAN), any(Object[].class))) //
                         .thenReturn(TEST_ERROR_MESSAGE_GERMAN);
             });
@@ -51,29 +53,24 @@ public class ErrorHandlerSpecTest {
                 });
 
                 describe("#onError(context, messageKey)", () -> {
-                    it("returns a German plaintext speech containing the error message identified by the message key",
-                            () -> {
-                                final ErrorHandler errorHandler = new ErrorHandler(messages);
-                                final SpeechletResponse response = errorHandler.onError(requestContext,
-                                        TEST_MESSAGEKEY);
-                                assertThat(response.getOutputSpeech()).isInstanceOf(PlainTextOutputSpeech.class);
-                                final PlainTextOutputSpeech plaintext = (PlainTextOutputSpeech) response
-                                        .getOutputSpeech();
-                                assertThat(plaintext.getText()).isEqualTo(TEST_ERROR_MESSAGE_GERMAN);
-                            });
+                    it("returns German plaintext containing the error message identified by the message key", () -> {
+                        final ErrorHandler errorHandler = new ErrorHandler(messages);
+                        final SpeechletResponse response = errorHandler.onError(requestContext, TEST_MESSAGEKEY);
+                        assertThat(response.getOutputSpeech()).isInstanceOf(PlainTextOutputSpeech.class);
+                        final PlainTextOutputSpeech plaintext = (PlainTextOutputSpeech) response.getOutputSpeech();
+                        assertThat(plaintext.getText()).isEqualTo(TEST_ERROR_MESSAGE_GERMAN);
+                    });
                 });
 
                 describe("#onError(context, exception)", () -> {
-                    it("returns a German plaintext speech containing the error message identified by the exception message",
-                            () -> {
-                                final ErrorHandler errorHandler = new ErrorHandler(messages);
-                                final SpeechletResponse response = errorHandler.onError(requestContext,
-                                        new AlexaSonicException(TEST_MESSAGEKEY));
-                                assertThat(response.getOutputSpeech()).isInstanceOf(PlainTextOutputSpeech.class);
-                                final PlainTextOutputSpeech plaintext = (PlainTextOutputSpeech) response
-                                        .getOutputSpeech();
-                                assertThat(plaintext.getText()).isEqualTo(TEST_ERROR_MESSAGE_GERMAN);
-                            });
+                    it("returns German plaintext containing the error message identified by the exception message", () -> {
+                        final ErrorHandler errorHandler = new ErrorHandler(messages);
+                        final SpeechletResponse response = errorHandler.onError(requestContext,
+                                new AlexaSonicException(TEST_MESSAGEKEY));
+                        assertThat(response.getOutputSpeech()).isInstanceOf(PlainTextOutputSpeech.class);
+                        final PlainTextOutputSpeech plaintext = (PlainTextOutputSpeech) response.getOutputSpeech();
+                        assertThat(plaintext.getText()).isEqualTo(TEST_ERROR_MESSAGE_GERMAN);
+                    });
                 });
             });
             context("for the English locale", () -> {
@@ -83,16 +80,13 @@ public class ErrorHandlerSpecTest {
                 });
 
                 describe("#onError(context, messageKey)", () -> {
-                    it("returns an English plaintext speech containing the error message identified by the message key",
-                            () -> {
-                                final ErrorHandler errorHandler = new ErrorHandler(messages);
-                                final SpeechletResponse response = errorHandler.onError(requestContext,
-                                        TEST_MESSAGEKEY);
-                                assertThat(response.getOutputSpeech()).isInstanceOf(PlainTextOutputSpeech.class);
-                                final PlainTextOutputSpeech plaintext = (PlainTextOutputSpeech) response
-                                        .getOutputSpeech();
-                                assertThat(plaintext.getText()).isEqualTo(TEST_ERROR_MESSAGE_ENGLISH);
-                            });
+                    it("returns an English plaintext speech containing the error message identified by the message key", () -> {
+                        final ErrorHandler errorHandler = new ErrorHandler(messages);
+                        final SpeechletResponse response = errorHandler.onError(requestContext, TEST_MESSAGEKEY);
+                        assertThat(response.getOutputSpeech()).isInstanceOf(PlainTextOutputSpeech.class);
+                        final PlainTextOutputSpeech plaintext = (PlainTextOutputSpeech) response.getOutputSpeech();
+                        assertThat(plaintext.getText()).isEqualTo(TEST_ERROR_MESSAGE_ENGLISH);
+                    });
                 });
 
                 describe("#onError(context, exception)", () -> {
@@ -102,8 +96,7 @@ public class ErrorHandlerSpecTest {
                                 final SpeechletResponse response = errorHandler.onError(requestContext,
                                         new AlexaSonicException(TEST_MESSAGEKEY));
                                 assertThat(response.getOutputSpeech()).isInstanceOf(PlainTextOutputSpeech.class);
-                                final PlainTextOutputSpeech plaintext = (PlainTextOutputSpeech) response
-                                        .getOutputSpeech();
+                                final PlainTextOutputSpeech plaintext = (PlainTextOutputSpeech) response.getOutputSpeech();
                                 assertThat(plaintext.getText()).isEqualTo(TEST_ERROR_MESSAGE_ENGLISH);
                             });
                 });

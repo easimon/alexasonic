@@ -15,7 +15,7 @@ public class AlexaSonicConfiguration {
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jaxbEnablingCustomizer() {
-        return b -> b.modules(new JaxbAnnotationModule());
+        return builder -> builder.modules(new JaxbAnnotationModule());
     }
 
     @Bean

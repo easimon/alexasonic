@@ -1,11 +1,12 @@
 package click.dobel.alexasonic.restclient.requestbuilders;
 
+import static click.dobel.alexasonic.restclient.requestbuilders.RequestParameters.*;
+
 import org.subsonic.restapi.Songs;
 
 import click.dobel.alexasonic.configuration.SubsonicCredentials;
 
-public class GetSimilarSongsRequestBuilder
-        extends AbstractSubsonicRequestBuilder<GetSimilarSongsRequestBuilder, Songs> {
+public class GetSimilarSongsRequestBuilder extends AbstractSubsonicRequestBuilder<GetSimilarSongsRequestBuilder, Songs> {
 
     public GetSimilarSongsRequestBuilder(final SubsonicCredentials configuration) {
         super(configuration, "getSimilarSongs");

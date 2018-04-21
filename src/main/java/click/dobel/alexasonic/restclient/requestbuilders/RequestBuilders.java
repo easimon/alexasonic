@@ -2,7 +2,10 @@ package click.dobel.alexasonic.restclient.requestbuilders;
 
 import click.dobel.alexasonic.configuration.SubsonicCredentials;
 
-public class RequestBuilders {
+public final class RequestBuilders {
+
+    private RequestBuilders() {
+    }
 
     public static PingRequestBuilder ping(final SubsonicCredentials configuration) {
         return new PingRequestBuilder(configuration);

@@ -23,125 +23,125 @@ public class PlaylistSpecTest {
 
             describe("#get", () -> {
                 it("returns an existing item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.get(EXISTING_1)).isEqualTo(EXISTING_1);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.get(EXISTING_1)).isEqualTo(EXISTING_1);
                 });
                 it("fails with a NoSuchElementException for a non-existing item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
                     assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> p.get(NONEXISTING_1));
+                            .isThrownBy(() -> playlist.get(NONEXISTING_1));
                 });
             });
 
             describe("#hasItem", () -> {
                 it("returns true for an existing item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.hasItem(EXISTING_1)).isTrue();
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.hasItem(EXISTING_1)).isTrue();
                 });
                 it("returns false for a non-existing item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.hasItem(NONEXISTING_1)).isFalse();
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.hasItem(NONEXISTING_1)).isFalse();
                 });
             });
 
             describe("#nextOf", () -> {
                 it("returns the next item when one exists", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.nextOf(EXISTING_1)).isEqualTo(EXISTING_2);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.nextOf(EXISTING_1)).isEqualTo(EXISTING_2);
                 });
                 it("fails with a NoSuchElementException when the current item does not exist", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
                     assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> p.nextOf(NONEXISTING_1));
+                            .isThrownBy(() -> playlist.nextOf(NONEXISTING_1));
                 });
                 it("fails with a AlexaSonicException when there is no next item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
                     assertThatExceptionOfType(AlexaSonicException.class) //
-                            .isThrownBy(() -> p.nextOf(EXISTING_2)) //
+                            .isThrownBy(() -> playlist.nextOf(EXISTING_2)) //
                             .withMessage(Playlist.MESSAGEKEY_LAST_SONG);
                 });
             });
 
             describe("#hasNext", () -> {
                 it("returns true for an existing next item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.hasNext(EXISTING_1)).isTrue();
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.hasNext(EXISTING_1)).isTrue();
                 });
                 it("returns false when there is no next item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.hasNext(EXISTING_2)).isFalse();
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.hasNext(EXISTING_2)).isFalse();
                 });
                 it("fails with a NoSuchElementException when the current item does not exist", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
                     assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> p.hasNext(NONEXISTING_1));
+                            .isThrownBy(() -> playlist.hasNext(NONEXISTING_1));
                 });
             });
 
             describe("#previousOf", () -> {
                 it("returns the previous item when one exists", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.previousOf(EXISTING_2)).isEqualTo(EXISTING_1);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.previousOf(EXISTING_2)).isEqualTo(EXISTING_1);
                 });
                 it("fails with a NoSuchElementException when the current item does not exist", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
                     assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> p.previousOf(NONEXISTING_1));
+                            .isThrownBy(() -> playlist.previousOf(NONEXISTING_1));
                 });
                 it("fails with a AlexaSonicException when there is no next item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
                     assertThatExceptionOfType(AlexaSonicException.class) //
-                            .isThrownBy(() -> p.previousOf(EXISTING_1)) //
+                            .isThrownBy(() -> playlist.previousOf(EXISTING_1)) //
                             .withMessage(Playlist.MESSAGEKEY_FIRST_SONG);
                 });
             });
 
             describe("#hasPrevious", () -> {
                 it("returns true for an existing previous item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.hasPrevious(EXISTING_2)).isTrue();
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.hasPrevious(EXISTING_2)).isTrue();
                 });
                 it("returns false when there is no previous item", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.hasPrevious(EXISTING_1)).isFalse();
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.hasPrevious(EXISTING_1)).isFalse();
                 });
                 it("fails with a NoSuchElementException when the current item does not exist", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
                     assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> p.hasPrevious(NONEXISTING_1));
+                            .isThrownBy(() -> playlist.hasPrevious(NONEXISTING_1));
                 });
             });
 
             describe("#first", () -> {
                 it("returns the first item of a playlist", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.first()).isEqualTo(EXISTING_1);
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.first()).isEqualTo(EXISTING_1);
                 });
                 it("fails with an AlexaSonicException when the playlist is empty.", () -> {
-                    final Playlist p = new Playlist();
+                    final Playlist playlist = new Playlist();
                     assertThatExceptionOfType(AlexaSonicException.class) //
-                            .isThrownBy(() -> p.first()) //
+                            .isThrownBy(() -> playlist.first()) //
                             .withMessage(Playlist.MESSAGEKEY_EMPTY);
                 });
             });
 
             describe("#clear", () -> {
                 it("clears the playlist", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.first()).isEqualTo(EXISTING_1);
-                    p.clear();
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.first()).isEqualTo(EXISTING_1);
+                    playlist.clear();
                     assertThatExceptionOfType(AlexaSonicException.class) //
-                            .isThrownBy(() -> p.first()) //
+                            .isThrownBy(() -> playlist.first()) //
                             .withMessage(Playlist.MESSAGEKEY_EMPTY);
                 });
             });
 
             describe("#add", () -> {
                 it("adds an item to the playlist", () -> {
-                    final Playlist p = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(p.hasItem(NONEXISTING_1)).isFalse();
-                    p.add(NONEXISTING_1);
-                    assertThat(p.hasItem(NONEXISTING_1)).isTrue();
+                    final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
+                    assertThat(playlist.hasItem(NONEXISTING_1)).isFalse();
+                    playlist.add(NONEXISTING_1);
+                    assertThat(playlist.hasItem(NONEXISTING_1)).isTrue();
                 });
             });
         });

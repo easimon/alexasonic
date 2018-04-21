@@ -38,12 +38,8 @@ public class PlaybackRequestHandler {
         return null;
     }
 
-    public SpeechletResponse onPlaybackNearlyFinished(
-            final RequestContext<PlaybackNearlyFinishedRequest> requestContext) {
-
-        final PlaybackNearlyFinishedRequest request = requestContext.getRequest();
-        final String currentToken = request.getToken();
-
+    public SpeechletResponse onPlaybackNearlyFinished(final RequestContext<PlaybackNearlyFinishedRequest> requestContext) {
+        final String currentToken = requestContext.getRequest().getToken();
         final Playlist playlist = requestContext.getDeviceSession().getPlaylist();
 
         if (!playlist.hasItem(currentToken)) {

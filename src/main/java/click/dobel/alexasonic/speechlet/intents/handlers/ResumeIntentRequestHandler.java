@@ -32,14 +32,13 @@ public class ResumeIntentRequestHandler implements IntentRequestHandler {
     @Override
     public SpeechletResponse onIntent(final RequestContext<IntentRequest> context) {
         final DeviceSession session = context.getDeviceSession();
-        final Playlist playlist = session.getPlaylist();
 
         final String token = session.getLastAudioPlayerToken();
-
         if (token == null) {
             throw new AlexaSonicException(MESSAGEKEY_NOT_PLAYING);
         }
 
+        final Playlist playlist = session.getPlaylist();
         final String url = playlist.get(token);
         final Long offsetInMilliseconds = session.getLastAudioPlayerOffsetInMilliseconds();
 

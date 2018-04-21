@@ -13,7 +13,7 @@ public class SubsonicResponseWrapper {
         return response;
     }
 
-    public void setResponse(Response response) {
+    public void setResponse(final Response response) {
         this.response = response;
     }
 

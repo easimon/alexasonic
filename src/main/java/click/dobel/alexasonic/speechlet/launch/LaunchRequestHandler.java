@@ -12,8 +12,8 @@ import click.dobel.alexasonic.speechlet.requestcontext.RequestContext;
 @Component
 public class LaunchRequestHandler {
 
-    private static String MESSAGEKEY_LAUNCH_GREETING = "LaunchRequest.Greeting";
-    private static String MESSAGEKEY_LAUNCH_REPROMPT = "LaunchRequest.Reprompt";
+    private static final String MESSAGEKEY_LAUNCH_GREETING = "LaunchRequest.Greeting";
+    private static final String MESSAGEKEY_LAUNCH_REPROMPT = "LaunchRequest.Reprompt";
 
     private final Messages messages;
 

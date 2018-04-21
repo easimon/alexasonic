@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ActiveProfiles(profiles = "test")
-public abstract class AlexaSonicSpringTest {
+@SuppressWarnings({ "PMD.AbstractClassWithoutAbstractMethod", "PMD.AbstractClassWithoutAnyMethod" })
+public abstract class AbstractAlexaSonicSpringTest {
 
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="AlexaSonic src/main ruleset"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+  http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>AlexaSonic src/main ruleset</description>
+    <exclude-pattern>.*/.mvn/.*</exclude-pattern>
+    <exclude-pattern>.*/src/test/.*</exclude-pattern>
+    <rule ref="/category/java/bestpractices.xml" />
+    <rule ref="/category/java/codestyle.xml">
+        <!-- I want many returns! -->
+        <exclude name="OnlyOneReturn" />
+        <!-- I want long, self-explanatory names! -->
+        <exclude name="LongVariable" />
+        <!-- Some classes do not need anything but the default ctor -->
+        <exclude name="AtLeastOneConstructor" />
+        <!-- I just disagree with this -->
+        <exclude name="AvoidFinalLocalVariable" />
+    </rule>
+    <rule ref="/category/java/design.xml">
+        <!-- Too many false positives -->
+        <exclude name="LawOfDemeter" />
+        <!-- ORM beans and Configuration classes are data classes - so...? -->
+        <exclude name="DataClass" />
+    </rule>
+    <!-- <rule ref="/category/java/documentation.xml" /> -->
+    <rule ref="/category/java/errorprone.xml">
+        <!-- Yes, Bean members should, but not everybody else. -->
+        <exclude name="BeanMembersShouldSerialize" />
+    </rule>
+    <rule ref="/category/java/multithreading.xml" />
+    <rule ref="/category/java/performance.xml" />
+    <rule ref="/category/java/security.xml" />
+</ruleset>

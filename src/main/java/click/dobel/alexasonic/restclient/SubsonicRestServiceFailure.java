@@ -9,7 +9,8 @@ public class SubsonicRestServiceFailure extends RuntimeException {
     private final ResponseStatus status;
     private final Error error;
 
-    public SubsonicRestServiceFailure(ResponseStatus status, Error error) {
+    public SubsonicRestServiceFailure(final ResponseStatus status, final Error error) {
+        super();
         this.status = status;
         this.error = error;
     }

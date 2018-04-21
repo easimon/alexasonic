@@ -1,12 +1,12 @@
 package click.dobel.alexasonic.speechlet.intents;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.slu.Intent;
@@ -22,7 +22,7 @@ public class IntentRequestRouterTest {
     public IntentRequestRouter setupRouter(final IntentRequestHandler... handlers) {
         final IntentRequestRouter result = new IntentRequestRouter(Arrays.asList(handlers));
         for (final IntentRequestHandler handler : handlers) {
-            Mockito.reset(handler);
+            reset(handler);
         }
         return result;
     }
@@ -35,7 +35,7 @@ public class IntentRequestRouterTest {
     }
 
     private IntentRequestHandler createMockIntentRequestHandler(final String name) {
-        final IntentRequestHandler handler = Mockito.mock(IntentRequestHandler.class);
+        final IntentRequestHandler handler = mock(IntentRequestHandler.class);
         when(handler.getIntentName()).thenReturn(name);
         return handler;
     }
@@ -48,12 +48,10 @@ public class IntentRequestRouterTest {
         final DeviceSession session = mock(DeviceSession.class);
 
         final Intent intent = Intent.builder().withName(intentName).build();
-        final IntentRequest intentRequest = IntentRequest.builder().withRequestId("TestRequest").withIntent(intent)
-                .build();
+        final IntentRequest intentRequest = IntentRequest.builder().withRequestId("TestRequest").withIntent(intent).build();
         final SpeechletRequestEnvelope<IntentRequest> envelope = SpeechletRequestEnvelope.<IntentRequest>builder()
                 .withRequest(intentRequest).build();
-        final RequestContext<IntentRequest> context = new RequestContext<>(envelope, session, null);
-        return context;
+        return new RequestContext<>(envelope, session, null);
     }
 
     @Test
@@ -63,7 +61,7 @@ public class IntentRequestRouterTest {
         final RequestContext<IntentRequest> requestContext = createRequestContext("DONTCARE");
 
         router.route(requestContext);
-        verify(unknown).onIntent(Mockito.any());
+        verify(unknown).onIntent(any());
         verifyNoMoreInteractions(unknown);
     }
 
@@ -90,8 +88,8 @@ public class IntentRequestRouterTest {
         final RequestContext<IntentRequest> context = createRequestContext(firstIntentName);
         router.route(context);
 
-        Mockito.verify(first).onIntent(context);
-        Mockito.verifyNoMoreInteractions(first, second, unknown);
+        verify(first).onIntent(context);
+        verifyNoMoreInteractions(first, second, unknown);
     }
 
 }

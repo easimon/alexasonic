@@ -33,6 +33,7 @@ import click.dobel.alexasonic.speechlet.requestcontext.RequestContext;
 import click.dobel.alexasonic.speechlet.requestcontext.RequestContextManager;
 
 @Component
+@SuppressWarnings("PMD.TooManyMethods")
 public class AlexaSonicSpeechlet implements SpeechletV2, AudioPlayer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlexaSonicSpeechlet.class);
@@ -48,9 +49,9 @@ public class AlexaSonicSpeechlet implements SpeechletV2, AudioPlayer {
     private final ErrorHandler errorHandler;
 
     @Autowired
-    public AlexaSonicSpeechlet(final LaunchRequestHandler launchRequestHandler,
-            final IntentRequestRouter intentRequestRouter, final PlaybackRequestHandler playbackRequestHandler,
-            final RequestContextManager requestContextManager, final ErrorHandler errorHandler) {
+    public AlexaSonicSpeechlet(final LaunchRequestHandler launchRequestHandler, final IntentRequestRouter intentRequestRouter,
+            final PlaybackRequestHandler playbackRequestHandler, final RequestContextManager requestContextManager,
+            final ErrorHandler errorHandler) {
         this.launchRequestHandler = launchRequestHandler;
         this.intentRequestRouter = intentRequestRouter;
         this.playbackRequestHandler = playbackRequestHandler;
@@ -58,22 +59,25 @@ public class AlexaSonicSpeechlet implements SpeechletV2, AudioPlayer {
         this.errorHandler = errorHandler;
     }
 
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     private <T extends SpeechletRequest, F extends SpeechletResponse> F nullResponse(final RequestContext<?> context) {
         return null;
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     private static String getRequestType(final SpeechletRequestEnvelope<?> requestEnvelope) {
         try {
             return Optional.ofNullable(requestEnvelope) //
-                    .map(e -> e.getRequest()) //
-                    .map(r -> {
-                        if (r instanceof IntentRequest) {
+                    .map(envelope -> envelope.getRequest()) //
+                    .map(request -> {
+                        if (request instanceof IntentRequest) {
                             return String.format("%s<%s>", //
-                                    r.getClass().getSimpleName(), //
-                                    Optional.of((IntentRequest) r).map(re -> re.getIntent()).map(i -> i.getName())
-                                            .orElse("Unknown"));
+                                    request.getClass().getSimpleName(), //
+                                    Optional.of((IntentRequest) request) //
+                                            .map(intentRequest -> intentRequest.getIntent()) //
+                                            .map(intenti -> intenti.getName()).orElse("Unknown"));
                         } else {
-                            return r.getClass().getSimpleName();
+                            return request.getClass().getSimpleName();
                         }
                     }) //
                     .orElse("<Unknown request type>");
@@ -93,13 +97,13 @@ public class AlexaSonicSpeechlet implements SpeechletV2, AudioPlayer {
         ));
     }
 
+    @SuppressWarnings({ "PMD.AvoidCatchingGenericException", "PMD.NcssCount" })
     private <T extends SpeechletRequest, F extends SpeechletResponse> SpeechletResponse wrap(
             final SpeechletRequestEnvelope<T> requestEnvelope, final Function<RequestContext<T>, F> func) {
         prepareMDC(requestEnvelope);
-        RequestContext<T> context = null;
+        final RequestContext<T> context = requestContextManager.createContext(requestEnvelope);
         try {
             final String requestType = getRequestType(requestEnvelope);
-            context = requestContextManager.createContext(requestEnvelope);
             LOGGER.info("Processing {}.", requestType);
             final F response = func.apply(context);
             requestContextManager.saveContext(context);
@@ -141,8 +145,7 @@ public class AlexaSonicSpeechlet implements SpeechletV2, AudioPlayer {
     }
 
     @Override
-    public SpeechletResponse onPlaybackFinished(
-            final SpeechletRequestEnvelope<PlaybackFinishedRequest> requestEnvelope) {
+    public SpeechletResponse onPlaybackFinished(final SpeechletRequestEnvelope<PlaybackFinishedRequest> requestEnvelope) {
         return wrap(requestEnvelope, playbackRequestHandler::onPlaybackFinished);
     }
 

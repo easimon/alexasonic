@@ -9,11 +9,21 @@ public class SubsonicCredentials {
     private String username;
     private String password;
 
+    public SubsonicCredentials() {
+        // Default ctor for Spring
+    }
+
+    public SubsonicCredentials(final String url, final String username, final String password) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
+
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -21,7 +31,7 @@ public class SubsonicCredentials {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -29,7 +39,7 @@ public class SubsonicCredentials {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 

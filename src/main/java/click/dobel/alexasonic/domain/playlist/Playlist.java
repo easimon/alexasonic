@@ -8,14 +8,21 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.assertj.core.util.VisibleForTesting;
 
 import click.dobel.alexasonic.exception.AlexaSonicException;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class Playlist {
 
+    @VisibleForTesting
     static final String MESSAGE_PREFIX = "Playlist";
+    @VisibleForTesting
     static final String MESSAGEKEY_EMPTY = MESSAGE_PREFIX + ".Empty";
+    @VisibleForTesting
     static final String MESSAGEKEY_LAST_SONG = MESSAGE_PREFIX + ".LastSong";
+    @VisibleForTesting
     static final String MESSAGEKEY_FIRST_SONG = MESSAGE_PREFIX + ".FirstSong";
 
     /*
@@ -45,8 +52,8 @@ public class Playlist {
     }
 
     public String get(final String token) {
-        return find(token).orElseThrow(
-                () -> new NoSuchElementException(String.format("No playlist entry with token %s found.", token)));
+        return find(token)
+                .orElseThrow(() -> new NoSuchElementException(String.format("No playlist entry with token %s found.", token)));
     }
 
     private Optional<String> find(final String token) {
@@ -59,6 +66,7 @@ public class Playlist {
         return find(token).isPresent();
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     private Optional<String> findNextOf(final String token) {
         return Optional.of(get(token)) //
                 .map(items::indexOf) //
@@ -74,6 +82,7 @@ public class Playlist {
         return findNextOf(token).orElseThrow(() -> new AlexaSonicException(MESSAGEKEY_LAST_SONG));
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     public Optional<String> findPreviousOf(final String token) {
         return Optional.of(get(token)) //
                 .map(items::indexOf) //
@@ -105,8 +114,13 @@ public class Playlist {
         if (!(other instanceof Playlist)) {
             return false;
         }
-        final Playlist o = (Playlist) other;
-        return new EqualsBuilder().append(this.items, o.items).isEquals();
+        final Playlist otherPlaylist = (Playlist) other;
+        return new EqualsBuilder().append(this.items, otherPlaylist.items).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.items).toHashCode();
     }
 
 }

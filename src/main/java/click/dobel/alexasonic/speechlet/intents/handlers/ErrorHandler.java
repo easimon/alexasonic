@@ -27,8 +27,8 @@ public class ErrorHandler {
         this.messages = messages;
     }
 
-    public SpeechletResponse onError(final RequestContext<? extends SpeechletRequest> requestContext,
-            final String messageKey, final Object... args) {
+    public SpeechletResponse onError(final RequestContext<? extends SpeechletRequest> requestContext, final String messageKey,
+            final Object... args) {
         final Locale locale = requestContext.getLocale();
         final String errorMessage = messages.getMessage(messageKey, MESSAGEKEY_ERROR_GENERIC, locale, args);
         return SpeechletResponseUtils.newPlaintextTellResponse(errorMessage);

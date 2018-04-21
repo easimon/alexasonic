@@ -8,16 +8,16 @@ import click.dobel.alexasonic.configuration.SubsonicCredentials;
 @Repository
 public class SubsonicCredentialsRepository {
 
-    private final SubsonicCredentials subsonicCredentials;
+    private final SubsonicCredentials credentials;
 
     @Autowired
-    public SubsonicCredentialsRepository(final SubsonicCredentials subsonicCredentials) {
-        this.subsonicCredentials = subsonicCredentials;
+    public SubsonicCredentialsRepository(final SubsonicCredentials credentials) {
+        this.credentials = credentials;
     }
 
     /* TODO: one configuration per user */
     public SubsonicCredentials getCredentialsForUser(final String userId) {
-        return subsonicCredentials;
+        return credentials;
     }
 
 }

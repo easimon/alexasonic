@@ -7,7 +7,9 @@ public class AlexaSonicException extends RuntimeException {
     private final String errorMessageKey;
     private final Object[] errorMessageArgs;
 
+    @SuppressWarnings("PMD.ArrayIsStoredDirectly")
     public AlexaSonicException(final String errorMessageKey, final Object... errorMessageArgs) {
+        super();
         this.errorMessageKey = errorMessageKey;
         this.errorMessageArgs = errorMessageArgs;
     }
@@ -16,6 +18,7 @@ public class AlexaSonicException extends RuntimeException {
         return errorMessageKey;
     }
 
+    @SuppressWarnings("PMD.MethodReturnsInternalArray")
     public Object[] getErrorMessageArgs() {
         return errorMessageArgs;
     }

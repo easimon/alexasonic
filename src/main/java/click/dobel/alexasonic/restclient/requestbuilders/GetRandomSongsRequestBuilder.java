@@ -1,5 +1,7 @@
 package click.dobel.alexasonic.restclient.requestbuilders;
 
+import static click.dobel.alexasonic.restclient.requestbuilders.RequestParameters.*;
+
 import org.subsonic.restapi.Songs;
 
 import click.dobel.alexasonic.configuration.SubsonicCredentials;
@@ -12,7 +14,7 @@ public class GetRandomSongsRequestBuilder extends AbstractSubsonicRequestBuilder
 
     /**
      * The maximum number of songs to return. Default 10, Max 500.
-     * 
+     *
      * @param size
      *            number of songs to return.
      * @return this
@@ -23,7 +25,7 @@ public class GetRandomSongsRequestBuilder extends AbstractSubsonicRequestBuilder
 
     /**
      * Only returns songs belonging to this genre.
-     * 
+     *
      * @param genre
      *            the genre.
      * @return this
@@ -34,7 +36,7 @@ public class GetRandomSongsRequestBuilder extends AbstractSubsonicRequestBuilder
 
     /**
      * Only return songs published after or in this year.
-     * 
+     *
      * @param year
      *            the year.
      * @return this
@@ -45,7 +47,7 @@ public class GetRandomSongsRequestBuilder extends AbstractSubsonicRequestBuilder
 
     /**
      * Only return songs published before or in this year.
-     * 
+     *
      * @param year
      *            the year.
      * @return this
@@ -57,13 +59,13 @@ public class GetRandomSongsRequestBuilder extends AbstractSubsonicRequestBuilder
     /**
      * Only return songs in the music folder with the given ID. See
      * {@link GetMusicFoldersRequestBuilder}.
-     * 
-     * @param id
+     *
+     * @param folderId
      *            the music folder id.
      * @return this.
      */
-    public GetRandomSongsRequestBuilder withMusicFolderId(final int id) {
-        return with(PARAM_MUSIC_FOLDER_ID, id);
+    public GetRandomSongsRequestBuilder withMusicFolderId(final int folderId) {
+        return with(PARAM_MUSIC_FOLDER_ID, folderId);
     }
 
 }

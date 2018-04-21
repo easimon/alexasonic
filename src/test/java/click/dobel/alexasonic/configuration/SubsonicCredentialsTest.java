@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import click.dobel.alexasonic.test.AlexaSonicSpringTest;
+import click.dobel.alexasonic.test.AbstractAlexaSonicSpringTest;
 
 @RunWith(SpringRunner.class)
-public class SubsonicCredentialsTest extends AlexaSonicSpringTest {
+public class SubsonicCredentialsTest extends AbstractAlexaSonicSpringTest {
 
     @Autowired
     private SubsonicCredentials configuration;

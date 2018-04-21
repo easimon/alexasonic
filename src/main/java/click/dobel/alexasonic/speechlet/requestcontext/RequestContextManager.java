@@ -26,13 +26,13 @@ public class RequestContextManager {
 
     private final SubsonicCredentialsRepository credentialsRepository;
 
-    private final SessionRepository alexaSessionManager;
+    private final SessionRepository sessionRepository;
 
     @Autowired
     public RequestContextManager(final SubsonicCredentialsRepository credentialsRepository,
-            final SessionRepository alexaSessionManager) {
+            final SessionRepository sessionRepository) {
         this.credentialsRepository = credentialsRepository;
-        this.alexaSessionManager = alexaSessionManager;
+        this.sessionRepository = sessionRepository;
     }
 
     public static Locale getLocale(final SpeechletRequestEnvelope<? extends SpeechletRequest> requestEnvelope) {
@@ -44,29 +44,29 @@ public class RequestContextManager {
 
     private static <T extends SpeechletRequest> DeviceSession updateDeviceSession(final DeviceSession deviceSession,
             final SpeechletRequestEnvelope<T> requestEnvelope) {
-        SpeechletRequestUtils.getAudioPlayerState(requestEnvelope).ifPresent(s -> {
-            LOGGER.debug("Updating AudioplayerState: T: {}, S: {}", s.getToken(), s.getOffsetInMilliseconds());
-            deviceSession.setLastAudioPlayerToken(s.getToken());
-            deviceSession.setLastAudioPlayerOffsetInMilliseconds(s.getOffsetInMilliseconds());
+        SpeechletRequestUtils.getAudioPlayerState(requestEnvelope).ifPresent(state -> {
+            LOGGER.debug("Updating AudioplayerState: T: {}, S: {}", state.getToken(), state.getOffsetInMilliseconds());
+            deviceSession.setLastAudioPlayerToken(state.getToken());
+            deviceSession.setLastAudioPlayerOffsetInMilliseconds(state.getOffsetInMilliseconds());
         });
         return deviceSession;
     }
 
-    public <T extends SpeechletRequest> RequestContext<T> createContext(
-            final SpeechletRequestEnvelope<T> requestEnvelope) {
+    public <T extends SpeechletRequest> RequestContext<T> createContext(final SpeechletRequestEnvelope<T> requestEnvelope) {
         final String userId = SpeechletRequestUtils.getUserId(requestEnvelope);
         final String deviceId = SpeechletRequestUtils.getDeviceId(requestEnvelope);
 
-        final SubsonicCredentials subsonicCredentials = credentialsRepository.getCredentialsForUser(userId);
-        final DeviceSession deviceSession = alexaSessionManager.getDeviceSession(deviceId);
-        if (deviceSession != null)
+        final SubsonicCredentials credentials = credentialsRepository.getCredentialsForUser(userId);
+        final DeviceSession deviceSession = sessionRepository.getDeviceSession(deviceId);
+        if (deviceSession != null) {
             updateDeviceSession(deviceSession, requestEnvelope);
+        }
 
-        return new RequestContext<>(requestEnvelope, deviceSession, subsonicCredentials);
+        return new RequestContext<>(requestEnvelope, deviceSession, credentials);
     }
 
     public void saveContext(final RequestContext<?> context) {
-        alexaSessionManager.saveDeviceSession(context.getDeviceSession());
+        sessionRepository.saveDeviceSession(context.getDeviceSession());
     }
 
 }

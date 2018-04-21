@@ -12,9 +12,9 @@ public class DeviceSession {
     @Id
     private String deviceId;
 
-    private String lastAudioPlayerToken = null;
-    private Long lastAudioPlayerOffsetInMilliseconds = null;
-    private Playlist playlist = null;
+    private String lastAudioPlayerToken;
+    private Long lastAudioPlayerOffsetInMilliseconds;
+    private Playlist playlist;
 
     public DeviceSession() {
         this.deviceId = "uninitialized";

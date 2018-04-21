@@ -1,5 +1,7 @@
 package click.dobel.alexasonic.restclient.requestbuilders;
 
+import static click.dobel.alexasonic.restclient.requestbuilders.RequestParameters.*;
+
 import org.subsonic.restapi.ArtistsID3;
 
 import click.dobel.alexasonic.configuration.SubsonicCredentials;

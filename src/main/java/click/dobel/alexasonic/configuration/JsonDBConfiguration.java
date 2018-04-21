@@ -56,12 +56,11 @@ public class JsonDBConfiguration {
     public JsonDBTemplate jsonDbTemplate(final ICipher encryptionCipher) throws IOException, GeneralSecurityException {
         ensureDbFilesLocation();
 
-        final JsonDBTemplate template = new JsonDBTemplate(dbFilesLocationString, JSONDB_BASE_SCAN_PACKAGE,
-                encryptionCipher);
+        final JsonDBTemplate template = new JsonDBTemplate(dbFilesLocationString, JSONDB_BASE_SCAN_PACKAGE, encryptionCipher);
 
         ENTITY_CLASSES.stream() //
-                .filter(c -> !template.collectionExists(c)) //
-                .forEach(c -> template.createCollection(c));
+                .filter(clazz -> !template.collectionExists(clazz)) //
+                .forEach(clazz -> template.createCollection(clazz));
 
         return template;
     }
@@ -71,9 +70,8 @@ public class JsonDBConfiguration {
     }
 
     @Bean
-    public ApplicationListener<ContextClosedEvent> temporaryDatabaseDeleterListener(
-            final JsonDBTemplate jsonDbTemplate) {
-        return e -> {
+    public ApplicationListener<ContextClosedEvent> temporaryDatabaseDeleterListener(final JsonDBTemplate jsonDbTemplate) {
+        return event -> {
             if (isPersistenceModeTemporary()) {
                 LOGGER.info("Clearing JsonDB database.");
                 jsonDbTemplate.getCollectionNames().forEach(name -> jsonDbTemplate.dropCollection(name));

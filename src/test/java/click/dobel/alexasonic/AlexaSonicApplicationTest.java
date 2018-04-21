@@ -6,14 +6,14 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-public class AlexaSonicApplicationTest extends click.dobel.alexasonic.test.AlexaSonicSpringTest {
+public class AlexaSonicApplicationTest extends click.dobel.alexasonic.test.AbstractAlexaSonicSpringTest {
 
     @Autowired
-    private ApplicationContext applicationContext;
+    private ApplicationContext context;
 
     @Test
     public void testApplicationContextBuilds() {
-        assertThat(applicationContext).isNotNull();
+        assertThat(context).isNotNull();
     }
 
 }

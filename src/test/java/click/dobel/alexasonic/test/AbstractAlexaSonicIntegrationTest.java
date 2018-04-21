@@ -5,7 +5,7 @@ import org.joda.time.Duration;
 import com.palantir.docker.compose.DockerComposeRule;
 import com.palantir.docker.compose.connection.waiting.HealthChecks;
 
-public abstract class AlexaSonicIntegrationTest extends AlexaSonicSpringTest {
+public abstract class AbstractAlexaSonicIntegrationTest extends AbstractAlexaSonicSpringTest {
 
     public static final String CONTAINER_AIRSONIC = "airsonic";
     public static final int CONTAINER_AIRSONIC_PORT = 4040;

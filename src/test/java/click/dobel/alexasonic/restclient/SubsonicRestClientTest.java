@@ -19,9 +19,9 @@ import com.palantir.docker.compose.DockerComposeRule;
 import click.dobel.alexasonic.configuration.SubsonicCredentials;
 import click.dobel.alexasonic.restclient.requestbuilders.RequestBuilders;
 import click.dobel.alexasonic.restclient.responseconverters.ResponseConverters;
-import click.dobel.alexasonic.test.AlexaSonicIntegrationTest;
+import click.dobel.alexasonic.test.AbstractAlexaSonicIntegrationTest;
 
-public class SubsonicRestClientTest extends AlexaSonicIntegrationTest {
+public class SubsonicRestClientTest extends AbstractAlexaSonicIntegrationTest {
 
     @ClassRule
     public static DockerComposeRule docker = dockerClassRule();
@@ -37,10 +37,7 @@ public class SubsonicRestClientTest extends AlexaSonicIntegrationTest {
                 .containers().container(CONTAINER_AIRSONIC).port(CONTAINER_AIRSONIC_PORT) //
                 .inFormat("http://$HOST:$EXTERNAL_PORT/");
 
-        final SubsonicCredentials credentials = new SubsonicCredentials();
-        credentials.setUsername("admin");
-        credentials.setPassword("admin");
-        credentials.setUrl(airsonicUrl);
+        final SubsonicCredentials credentials = new SubsonicCredentials(airsonicUrl, "admin", "admin");
         this.credentials = credentials;
     }
 
@@ -52,15 +49,13 @@ public class SubsonicRestClientTest extends AlexaSonicIntegrationTest {
 
     @Test
     public void testPing() {
-        final ResponseStatus response = restClient.execute(RequestBuilders.ping(credentials),
-                ResponseConverters.ping());
+        final ResponseStatus response = restClient.execute(RequestBuilders.ping(credentials), ResponseConverters.ping());
         assertThat(response).isEqualTo(ResponseStatus.OK);
     }
 
     @Test
     public void testGetArtists() {
-        final ArtistsID3 artists = restClient.execute(RequestBuilders.getArtists(credentials),
-                ResponseConverters.getArtists());
+        final ArtistsID3 artists = restClient.execute(RequestBuilders.getArtists(credentials), ResponseConverters.getArtists());
         assertThat(artists).isNotNull();
         assertThat(artists.getIndex()).hasSize(2);
 
@@ -87,6 +82,9 @@ public class SubsonicRestClientTest extends AlexaSonicIntegrationTest {
         assertThat(songs.getSong()).hasSize(10);
     }
 
+    /**
+     * TODO: unclear on how to test this really.
+     */
     @Test
     public void testStream() {
         final Songs songs = restClient.execute(RequestBuilders.getRandomSongs(credentials).withSize(10),

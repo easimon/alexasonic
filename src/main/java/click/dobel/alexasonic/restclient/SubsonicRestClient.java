@@ -37,16 +37,15 @@ public class SubsonicRestClient {
         return response;
     }
 
-    public <B extends AbstractSubsonicRequestBuilder<B, T>, T> T execute(
-            final AbstractSubsonicRequestBuilder<B, T> builder, final SubsonicResponseConverter<T> converter) {
+    public <B extends AbstractSubsonicRequestBuilder<B, T>, T> T execute(final AbstractSubsonicRequestBuilder<B, T> builder,
+            final SubsonicResponseConverter<T> converter) {
         final URI uri = builder.getUri();
         final Response response = doRequest(uri);
         return converter.convert(response);
     }
 
     public <B extends AbstractSubsonicRequestBuilder<B, T>, T, F> F executeAndFlatten(
-            final AbstractSubsonicRequestBuilder<B, T> builder,
-            final FlatteningSubsonicResponseConverter<T, F> converter) {
+            final AbstractSubsonicRequestBuilder<B, T> builder, final FlatteningSubsonicResponseConverter<T, F> converter) {
         final URI uri = builder.getUri();
         final Response response = doRequest(uri);
         return converter.convertAndFlatten(response);
