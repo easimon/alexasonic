@@ -9,7 +9,8 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.assertj.core.util.VisibleForTesting;
+
+import com.google.common.annotations.VisibleForTesting;
 
 import click.dobel.alexasonic.exception.AlexaSonicException;
 
