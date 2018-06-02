@@ -29,6 +29,7 @@
         <jsondb.version>1.0.64</jsondb.version>
         <spectrum.version>1.2.0</spectrum.version>
         <commons-collections.version>3.2.2</commons-collections.version>
+        <guava.version>25.1-jre</guava.version>
         <docker-compose-rule.version>0.33.0</docker-compose-rule.version>
         <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
     </properties>
@@ -47,6 +48,11 @@
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -173,12 +179,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version> <executions> <execution> <id>validate</id> <phase>validate</phase>
-                <configuration> <configLocation>google_checks.xml</configLocation> <encoding>UTF-8</encoding>
-                <consoleOutput>true</consoleOutput> <failsOnError>true</failsOnError> <linkXRef>false</linkXRef>
-                </configuration> <goals> <goal>check</goal> </goals> </execution> </executions>
-                </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
