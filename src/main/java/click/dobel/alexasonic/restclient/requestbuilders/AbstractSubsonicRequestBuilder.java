@@ -1,12 +1,13 @@
 package click.dobel.alexasonic.restclient.requestbuilders;
 
-import java.net.URI;
-
+import click.dobel.alexasonic.configuration.SubsonicCredentials;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import click.dobel.alexasonic.configuration.SubsonicCredentials;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 public abstract class AbstractSubsonicRequestBuilder<B extends AbstractSubsonicRequestBuilder<B, T>, T> {
@@ -19,18 +20,16 @@ public abstract class AbstractSubsonicRequestBuilder<B extends AbstractSubsonicR
 
     private static final String REST_ENDPOINT_URL_PATH = "rest/";
 
-    private final SubsonicCredentials subsonicCredentials;
+    private final String restResourceName;
 
-    private final UriComponentsBuilder uriComponentsBuilder;
+    private final Map<String, Object> requestParams = new HashMap<>();
 
     private static String createRestBaseUrl(final String serverUrl) {
         return serverUrl + (serverUrl.endsWith("/") ? "" : "/") + REST_ENDPOINT_URL_PATH;
     }
 
-    protected AbstractSubsonicRequestBuilder(final SubsonicCredentials subsonicCredentials, final String restResourceName) {
-        this.subsonicCredentials = subsonicCredentials;
-        this.uriComponentsBuilder = UriComponentsBuilder //
-                .fromHttpUrl(createRestBaseUrl(subsonicCredentials.getUrl()) + restResourceName);
+    protected AbstractSubsonicRequestBuilder(final String restResourceName) {
+        this.restResourceName = restResourceName;
     }
 
     private String createSalt() {
@@ -42,33 +41,39 @@ public abstract class AbstractSubsonicRequestBuilder<B extends AbstractSubsonicR
         return DigestUtils.md5Hex(passwordAndSalt);
     }
 
-    private void addGeneralParameters() {
-        final String salt = createSalt();
+    private Map<String, Object> createGeneralParameters(final SubsonicCredentials credentials) {
+        final Map<String, Object> result = new HashMap<>();
 
-        this.uriComponentsBuilder //
-                .queryParam("u", subsonicCredentials.getUsername())
-                .queryParam("t", createToken(subsonicCredentials.getPassword(), salt)) //
-                .queryParam("s", salt) //
-                .queryParam("v", REST_CLIENT_VERSION) //
-                .queryParam("c", REST_CLIENT_NAME) //
-                .queryParam("f", REST_CLIENT_REQUEST_FORMAT);
+        final String salt = createSalt();
+        result.put("u", credentials.getUsername());
+        result.put("t", createToken(credentials.getPassword(), salt));
+        result.put("s", salt);
+        result.put("v", REST_CLIENT_VERSION);
+        result.put("c", REST_CLIENT_NAME);
+        result.put("f", REST_CLIENT_REQUEST_FORMAT);
+        return result;
     }
 
     @SuppressWarnings("unchecked")
     protected B with(final String name, final Object value) {
         if (value != null) {
-            uriComponentsBuilder.queryParam(name, String.valueOf(value));
+            requestParams.put(name, value);
         }
         return (B) this;
     }
 
-    public URI getUri() {
-        addGeneralParameters();
-        return uriComponentsBuilder.build().encode().toUri();
+    public URI getUri(final SubsonicCredentials credentials) {
+        final UriComponentsBuilder builder = UriComponentsBuilder
+            .fromHttpUrl(createRestBaseUrl(credentials.getUrl()) + restResourceName);
+
+        createGeneralParameters(credentials).forEach(builder::queryParam);
+        requestParams.forEach(builder::queryParam);
+
+        return builder.build().encode().toUri();
     }
 
-    public String getUrl() {
-        return getUri().toString();
+    public String getUrl(final SubsonicCredentials credentials) {
+        return getUri(credentials).toString();
     }
 
 }

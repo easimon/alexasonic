@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>click.dobel</groupId>
@@ -10,49 +10,77 @@
     <packaging>jar</packaging>
 
     <name>AlexaSonic</name>
-    <description>Alexa Skill for listening to Sub/Libre/Airsonic</description>
+    <description>Alexa Skill for listening to Sub-/Libre-/Airsonic</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.3.RELEASE</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <version>2.0.5.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <alexa-skills-kit.version>2.6.0</alexa-skills-kit.version>
+        <spring-boot-version>2.0.5.RELEASE</spring-boot-version>
+
         <jaxb-basics.version>1.11.1</jaxb-basics.version>
-        <alexa-skills-kit.version>1.8.1</alexa-skills-kit.version>
-        <jsondb.version>1.0.64</jsondb.version>
+        <mapdb.version>3.0.7</mapdb.version>
         <spectrum.version>1.2.0</spectrum.version>
-        <commons-collections.version>3.2.2</commons-collections.version>
-        <guava.version>25.1-jre</guava.version>
-        <docker-compose-rule.version>0.33.0</docker-compose-rule.version>
+        <guava.version>26.0-jre</guava.version>
+        <docker-compose-rule.version>0.34.0</docker-compose-rule.version>
         <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
     </properties>
 
     <repositories>
         <repository>
             <id>palantir-releases</id>
             <name>Palantir Releases</name>
-            <url> https://dl.bintray.com/palantir/releases/</url>
+            <url>https://dl.bintray.com/palantir/releases/</url>
         </repository>
     </repositories>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>commons-collections</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>${commons-collections.version}</version>
-            </dependency>
+            <!-- Overriding versions for security fixes -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- Alexa Skills Kit SDK -->
+            <dependency>
+                <groupId>com.amazon.alexa</groupId>
+                <artifactId>ask-sdk-servlet-support</artifactId>
+                <version>${alexa-skills-kit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.amazon.alexa</groupId>
+                <artifactId>ask-sdk-core</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>log4j-slf4j-impl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>com.greghaskins</groupId>
+                <artifactId>spectrum</artifactId>
+                <version>${spectrum.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.palantir.docker.compose</groupId>
+                <artifactId>docker-compose-rule-junit4</artifactId>
+                <version>${docker-compose-rule.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -62,13 +90,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!-- JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jaxb-annotations</artifactId>
@@ -79,28 +116,19 @@
             <artifactId>jaxb-api</artifactId>
         </dependency>
 
+        <!-- Alexa Skills Kit SDK -->
         <dependency>
             <groupId>com.amazon.alexa</groupId>
-            <artifactId>alexa-skills-kit</artifactId>
-            <version>${alexa-skills-kit.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>ask-sdk-servlet-support</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.jsondb</groupId>
-            <artifactId>jsondb-core</artifactId>
-            <version>${jsondb.version}</version>
+            <groupId>org.mapdb</groupId>
+            <artifactId>mapdb</artifactId>
+            <version>${mapdb.version}</version>
         </dependency>
 
+        <!-- Test dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -116,14 +144,12 @@
         <dependency>
             <groupId>com.greghaskins</groupId>
             <artifactId>spectrum</artifactId>
-            <version>${spectrum.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.palantir.docker.compose</groupId>
             <artifactId>docker-compose-rule-junit4</artifactId>
-            <version>${docker-compose-rule.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -165,11 +191,14 @@
                 </configuration>
                 <executions>
                     <execution>
-						<?m2e execute onConfiguration,onIncremental?>
+                        <?m2e execute onConfiguration,onIncremental?>
                         <goals>
                             <goal>xsdtojava</goal>
                         </goals>
                         <configuration>
+                            <sourceRoot>
+                                ${project.build.directory}/generated-sources/cxf-xjc-src/src/main/java
+                            </sourceRoot>
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>${basedir}/src/main/resources/subsonic-rest-api.xsd</xsd>

@@ -1,24 +1,19 @@
 package click.dobel.alexasonic.domain.session;
 
+import click.dobel.alexasonic.domain.playlist.Playlist;
+
+import java.io.Serializable;
 import java.util.Objects;
 
-import click.dobel.alexasonic.domain.playlist.Playlist;
-import io.jsondb.annotation.Document;
-import io.jsondb.annotation.Id;
+public class DeviceSession implements Serializable {
 
-@Document(collection = "devicesession", schemaVersion = "1.0")
-public class DeviceSession {
+    private static final long serialVersionUID = 1L;
 
-    @Id
     private String deviceId;
 
     private String lastAudioPlayerToken;
     private Long lastAudioPlayerOffsetInMilliseconds;
     private Playlist playlist;
-
-    public DeviceSession() {
-        this.deviceId = "uninitialized";
-    }
 
     public DeviceSession(final String deviceId) {
         Objects.requireNonNull(deviceId, "DeviceId may not be null.");

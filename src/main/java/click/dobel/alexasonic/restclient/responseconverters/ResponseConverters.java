@@ -1,16 +1,9 @@
 package click.dobel.alexasonic.restclient.responseconverters;
 
+import org.subsonic.restapi.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.subsonic.restapi.ArtistID3;
-import org.subsonic.restapi.ArtistsID3;
-import org.subsonic.restapi.Child;
-import org.subsonic.restapi.Indexes;
-import org.subsonic.restapi.License;
-import org.subsonic.restapi.MusicFolder;
-import org.subsonic.restapi.ResponseStatus;
-import org.subsonic.restapi.Songs;
 
 public final class ResponseConverters {
 
@@ -22,16 +15,23 @@ public final class ResponseConverters {
     private static final SubsonicResponseConverter<Indexes> INDEXES = response -> response.getIndexes();
 
     private static final SubsonicResponseConverter<List<MusicFolder>> MUSIC_FOLDERS = response -> response.getMusicFolders()
-            .getMusicFolder();
+        .getMusicFolder();
 
-    private static final FlatteningSubsonicResponseConverter<ArtistsID3, List<ArtistID3>> ARTISTS = of( //
-            response -> response.getArtists(), //
-            artist -> artist.getIndex().stream().flatMap(index -> index.getArtist().stream()).collect(Collectors.toList()) //
+    private static final FlatteningSubsonicResponseConverter<ArtistsID3, List<ArtistID3>> ARTISTS = of(
+        Response::getArtists,
+        artist -> artist
+            .getIndex()
+            .stream()
+            .flatMap(index ->
+                index
+                    .getArtist()
+                    .stream())
+            .collect(Collectors.toList())
     );
 
-    private static final FlatteningSubsonicResponseConverter<Songs, List<Child>> RANDOM_SONGS = of( //
-            response -> response.getRandomSongs(), //
-            response -> response.getSong() //
+    private static final FlatteningSubsonicResponseConverter<Songs, List<Child>> RANDOM_SONGS = of(
+        Response::getRandomSongs,
+        Songs::getSong
     );
 
     private ResponseConverters() {
@@ -39,7 +39,7 @@ public final class ResponseConverters {
 
     @SuppressWarnings("PMD.ShortMethodName")
     private static <T, F> FlatteningSubsonicResponseConverter<T, F> of(final SubsonicResponseConverter<T> converter,
-            final SubsonicResponseFlattener<T, F> flattener) {
+                                                                       final SubsonicResponseFlattener<T, F> flattener) {
         return FlatteningSubsonicResponseConverter.of(converter, flattener);
     }
 

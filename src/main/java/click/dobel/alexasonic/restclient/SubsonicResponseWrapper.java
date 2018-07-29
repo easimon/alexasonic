@@ -1,8 +1,7 @@
 package click.dobel.alexasonic.restclient;
 
-import org.subsonic.restapi.Response;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.subsonic.restapi.Response;
 
 public class SubsonicResponseWrapper {
 

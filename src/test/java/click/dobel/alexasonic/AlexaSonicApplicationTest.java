@@ -1,12 +1,13 @@
 package click.dobel.alexasonic;
 
-import static org.assertj.core.api.Assertions.*;
-
+import click.dobel.alexasonic.test.AbstractAlexaSonicSpringTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-public class AlexaSonicApplicationTest extends click.dobel.alexasonic.test.AbstractAlexaSonicSpringTest {
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class AlexaSonicApplicationTest extends AbstractAlexaSonicSpringTest {
 
     @Autowired
     private ApplicationContext context;
@@ -15,5 +16,4 @@ public class AlexaSonicApplicationTest extends click.dobel.alexasonic.test.Abstr
     public void testApplicationContextBuilds() {
         assertThat(context).isNotNull();
     }
-
 }

@@ -1,12 +1,12 @@
 package click.dobel.alexasonic.i18n;
 
-import java.util.Locale;
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Component;
+
+import java.util.Locale;
+import java.util.Objects;
 
 @Component
 public class Messages {

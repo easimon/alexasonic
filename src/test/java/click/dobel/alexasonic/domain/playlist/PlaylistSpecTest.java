@@ -1,15 +1,15 @@
 package click.dobel.alexasonic.domain.playlist;
 
-import static com.greghaskins.spectrum.Spectrum.*;
-import static org.assertj.core.api.Assertions.*;
+import click.dobel.alexasonic.exception.AlexaSonicException;
+import com.greghaskins.spectrum.Spectrum;
+import org.junit.runner.RunWith;
 
 import java.util.NoSuchElementException;
 
-import org.junit.runner.RunWith;
-
-import com.greghaskins.spectrum.Spectrum;
-
-import click.dobel.alexasonic.exception.AlexaSonicException;
+import static com.greghaskins.spectrum.Spectrum.describe;
+import static com.greghaskins.spectrum.Spectrum.it;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @RunWith(Spectrum.class)
 public class PlaylistSpecTest {
@@ -17,7 +17,7 @@ public class PlaylistSpecTest {
 
         final String EXISTING_1 = "one";
         final String EXISTING_2 = "two";
-        final String NONEXISTING_1 = "n_one";
+        final String NON_EXISTING_1 = "n_one";
 
         describe(Playlist.class.getSimpleName(), () -> {
 
@@ -28,8 +28,8 @@ public class PlaylistSpecTest {
                 });
                 it("fails with a NoSuchElementException for a non-existing item", () -> {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> playlist.get(NONEXISTING_1));
+                    assertThatExceptionOfType(NoSuchElementException.class)
+                        .isThrownBy(() -> playlist.get(NON_EXISTING_1));
                 });
             });
 
@@ -40,7 +40,7 @@ public class PlaylistSpecTest {
                 });
                 it("returns false for a non-existing item", () -> {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(playlist.hasItem(NONEXISTING_1)).isFalse();
+                    assertThat(playlist.hasItem(NON_EXISTING_1)).isFalse();
                 });
             });
 
@@ -51,14 +51,14 @@ public class PlaylistSpecTest {
                 });
                 it("fails with a NoSuchElementException when the current item does not exist", () -> {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> playlist.nextOf(NONEXISTING_1));
+                    assertThatExceptionOfType(NoSuchElementException.class)
+                        .isThrownBy(() -> playlist.nextOf(NON_EXISTING_1));
                 });
                 it("fails with a AlexaSonicException when there is no next item", () -> {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThatExceptionOfType(AlexaSonicException.class) //
-                            .isThrownBy(() -> playlist.nextOf(EXISTING_2)) //
-                            .withMessage(Playlist.MESSAGEKEY_LAST_SONG);
+                    assertThatExceptionOfType(AlexaSonicException.class)
+                        .isThrownBy(() -> playlist.nextOf(EXISTING_2))
+                        .withMessage(Playlist.MESSAGEKEY_LAST_SONG);
                 });
             });
 
@@ -73,8 +73,8 @@ public class PlaylistSpecTest {
                 });
                 it("fails with a NoSuchElementException when the current item does not exist", () -> {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> playlist.hasNext(NONEXISTING_1));
+                    assertThatExceptionOfType(NoSuchElementException.class)
+                        .isThrownBy(() -> playlist.hasNext(NON_EXISTING_1));
                 });
             });
 
@@ -85,14 +85,14 @@ public class PlaylistSpecTest {
                 });
                 it("fails with a NoSuchElementException when the current item does not exist", () -> {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> playlist.previousOf(NONEXISTING_1));
+                    assertThatExceptionOfType(NoSuchElementException.class)
+                        .isThrownBy(() -> playlist.previousOf(NON_EXISTING_1));
                 });
                 it("fails with a AlexaSonicException when there is no next item", () -> {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThatExceptionOfType(AlexaSonicException.class) //
-                            .isThrownBy(() -> playlist.previousOf(EXISTING_1)) //
-                            .withMessage(Playlist.MESSAGEKEY_FIRST_SONG);
+                    assertThatExceptionOfType(AlexaSonicException.class)
+                        .isThrownBy(() -> playlist.previousOf(EXISTING_1))
+                        .withMessage(Playlist.MESSAGEKEY_FIRST_SONG);
                 });
             });
 
@@ -107,8 +107,8 @@ public class PlaylistSpecTest {
                 });
                 it("fails with a NoSuchElementException when the current item does not exist", () -> {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThatExceptionOfType(NoSuchElementException.class) //
-                            .isThrownBy(() -> playlist.hasPrevious(NONEXISTING_1));
+                    assertThatExceptionOfType(NoSuchElementException.class)
+                        .isThrownBy(() -> playlist.hasPrevious(NON_EXISTING_1));
                 });
             });
 
@@ -119,9 +119,9 @@ public class PlaylistSpecTest {
                 });
                 it("fails with an AlexaSonicException when the playlist is empty.", () -> {
                     final Playlist playlist = new Playlist();
-                    assertThatExceptionOfType(AlexaSonicException.class) //
-                            .isThrownBy(() -> playlist.first()) //
-                            .withMessage(Playlist.MESSAGEKEY_EMPTY);
+                    assertThatExceptionOfType(AlexaSonicException.class)
+                        .isThrownBy(() -> playlist.first())
+                        .withMessage(Playlist.MESSAGEKEY_EMPTY);
                 });
             });
 
@@ -130,18 +130,18 @@ public class PlaylistSpecTest {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
                     assertThat(playlist.first()).isEqualTo(EXISTING_1);
                     playlist.clear();
-                    assertThatExceptionOfType(AlexaSonicException.class) //
-                            .isThrownBy(() -> playlist.first()) //
-                            .withMessage(Playlist.MESSAGEKEY_EMPTY);
+                    assertThatExceptionOfType(AlexaSonicException.class)
+                        .isThrownBy(() -> playlist.first())
+                        .withMessage(Playlist.MESSAGEKEY_EMPTY);
                 });
             });
 
             describe("#add", () -> {
                 it("adds an item to the playlist", () -> {
                     final Playlist playlist = new Playlist(EXISTING_1, EXISTING_2);
-                    assertThat(playlist.hasItem(NONEXISTING_1)).isFalse();
-                    playlist.add(NONEXISTING_1);
-                    assertThat(playlist.hasItem(NONEXISTING_1)).isTrue();
+                    assertThat(playlist.hasItem(NON_EXISTING_1)).isFalse();
+                    playlist.add(NON_EXISTING_1);
+                    assertThat(playlist.hasItem(NON_EXISTING_1)).isTrue();
                 });
             });
         });

@@ -1,7 +1,10 @@
 package click.dobel.alexasonic.restclient;
 
-import java.net.URI;
-
+import click.dobel.alexasonic.configuration.SubsonicCredentials;
+import click.dobel.alexasonic.repository.SubsonicCredentialsRepository;
+import click.dobel.alexasonic.restclient.requestbuilders.AbstractSubsonicRequestBuilder;
+import click.dobel.alexasonic.restclient.responseconverters.FlatteningSubsonicResponseConverter;
+import click.dobel.alexasonic.restclient.responseconverters.SubsonicResponseConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
@@ -9,18 +12,19 @@ import org.springframework.web.client.RestTemplate;
 import org.subsonic.restapi.Response;
 import org.subsonic.restapi.ResponseStatus;
 
-import click.dobel.alexasonic.restclient.requestbuilders.AbstractSubsonicRequestBuilder;
-import click.dobel.alexasonic.restclient.responseconverters.FlatteningSubsonicResponseConverter;
-import click.dobel.alexasonic.restclient.responseconverters.SubsonicResponseConverter;
+import java.net.URI;
 
 @Component
 public class SubsonicRestClient {
 
     private final RestTemplate restTemplate;
+    private final SubsonicCredentialsRepository credentialsRepository;
 
     @Autowired
-    public SubsonicRestClient(final RestTemplateBuilder restTemplateBuilder) {
+    public SubsonicRestClient(final RestTemplateBuilder restTemplateBuilder,
+                              final SubsonicCredentialsRepository credentialsRepository) {
         this.restTemplate = restTemplateBuilder.build();
+        this.credentialsRepository = credentialsRepository;
     }
 
     /* TODO: Find out how to unwrap root element configuratively. */
@@ -37,18 +41,23 @@ public class SubsonicRestClient {
         return response;
     }
 
-    public <B extends AbstractSubsonicRequestBuilder<B, T>, T> T execute(final AbstractSubsonicRequestBuilder<B, T> builder,
-            final SubsonicResponseConverter<T> converter) {
-        final URI uri = builder.getUri();
+    public <B extends AbstractSubsonicRequestBuilder<B, T>, T> T execute(
+        final AbstractSubsonicRequestBuilder<B, T> builder,
+        final SubsonicResponseConverter<T> converter,
+        final SubsonicCredentials credentials
+    ) {
+        final URI uri = builder.getUri(credentials);
         final Response response = doRequest(uri);
         return converter.convert(response);
     }
 
     public <B extends AbstractSubsonicRequestBuilder<B, T>, T, F> F executeAndFlatten(
-            final AbstractSubsonicRequestBuilder<B, T> builder, final FlatteningSubsonicResponseConverter<T, F> converter) {
-        final URI uri = builder.getUri();
+        final AbstractSubsonicRequestBuilder<B, T> builder,
+        final FlatteningSubsonicResponseConverter<T, F> converter,
+        final SubsonicCredentials credentials
+    ) {
+        final URI uri = builder.getUri(credentials);
         final Response response = doRequest(uri);
         return converter.convertAndFlatten(response);
     }
-
 }

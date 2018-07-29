@@ -1,38 +1,43 @@
 package click.dobel.alexasonic.restclient.requestbuilders;
 
-import click.dobel.alexasonic.configuration.SubsonicCredentials;
-
 public final class RequestBuilders {
 
     private RequestBuilders() {
     }
 
-    public static PingRequestBuilder ping(final SubsonicCredentials configuration) {
-        return new PingRequestBuilder(configuration);
+    public static GetArtistsRequestBuilder getArtists() {
+        return new GetArtistsRequestBuilder();
     }
 
-    public static GetLicenseRequestBuilder getLicense(final SubsonicCredentials configuration) {
-        return new GetLicenseRequestBuilder(configuration);
+    public static GetIndexesRequestBuilder getIndexes() {
+        return new GetIndexesRequestBuilder();
     }
 
-    public static GetMusicFoldersRequestBuilder getMusicFolders(final SubsonicCredentials configuration) {
-        return new GetMusicFoldersRequestBuilder(configuration);
+    public static GetLicenseRequestBuilder getLicense() {
+        return new GetLicenseRequestBuilder();
     }
 
-    public static GetIndexesRequestBuilder getIndexes(final SubsonicCredentials configuration) {
-        return new GetIndexesRequestBuilder(configuration);
+    public static GetMusicFoldersRequestBuilder getMusicFolders() {
+        return new GetMusicFoldersRequestBuilder();
     }
 
-    public static GetArtistsRequestBuilder getArtists(final SubsonicCredentials configuration) {
-        return new GetArtistsRequestBuilder(configuration);
+    public static GetRandomSongsRequestBuilder getRandomSongs() {
+        return new GetRandomSongsRequestBuilder();
     }
 
-    public static GetRandomSongsRequestBuilder getRandomSongs(final SubsonicCredentials configuration) {
-        return new GetRandomSongsRequestBuilder(configuration);
+    public static GetSimilarSongsRequestBuilder getSimilarSongs() {
+        return new GetSimilarSongsRequestBuilder();
     }
 
-    public static StreamRequestBuilder stream(final SubsonicCredentials configuration) {
-        return new StreamRequestBuilder(configuration);
+    public static GetSimilarSongs2RequestBuilder getSimilarSongs2() {
+        return new GetSimilarSongs2RequestBuilder();
     }
 
+    public static PingRequestBuilder ping() {
+        return new PingRequestBuilder();
+    }
+
+    public static StreamRequestBuilder stream() {
+        return new StreamRequestBuilder();
+    }
 }

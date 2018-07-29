@@ -1,16 +1,13 @@
 package click.dobel.alexasonic.restclient.requestbuilders;
 
-import java.util.List;
-
 import org.subsonic.restapi.MusicFolder;
 
-import click.dobel.alexasonic.configuration.SubsonicCredentials;
+import java.util.List;
 
 public class GetMusicFoldersRequestBuilder
-        extends AbstractSubsonicRequestBuilder<GetMusicFoldersRequestBuilder, List<MusicFolder>> {
+    extends AbstractSubsonicRequestBuilder<GetMusicFoldersRequestBuilder, List<MusicFolder>> {
 
-    public GetMusicFoldersRequestBuilder(final SubsonicCredentials configuration) {
-        super(configuration, "getMusicFolders");
+    GetMusicFoldersRequestBuilder() {
+        super("getMusicFolders");
     }
-
 }

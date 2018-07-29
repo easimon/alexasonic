@@ -1,9 +1,8 @@
 package click.dobel.alexasonic.repository;
 
+import click.dobel.alexasonic.configuration.SubsonicCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import click.dobel.alexasonic.configuration.SubsonicCredentials;
 
 @Repository
 public class SubsonicCredentialsRepository {

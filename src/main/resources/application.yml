@@ -1,24 +1,17 @@
 application:
-  ids: amzn1.ask.skill.de12da1d-0ab5-44b1-8b99-8c37a7d1e825
+  id: amzn1.ask.skill.de12da1d-0ab5-44b1-8b99-8c37a7d1e825
   db:
-    path: /tmp/alexasonic 
+    path: /tmp/alexasonic.mapdb
 
 server:
   port: 9999
-  
+
+spring:
+  aop:
+    proxy-target-class: false
+
 logging:
   level:
     click.dobel: debug
   pattern:
     level: '%5p [%X{mdcData}]'
-    
-    
-#spring:
-#  datasource:
-#    url: jdbc:hsqldb:file:db/alexasonic
-#    username: SA
-#    password: ''
-#  jpa:
-#    generate-ddl: true
-#    hibernate:
-#      ddl-auto: update

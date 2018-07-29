@@ -2,18 +2,18 @@ version: '3.2'
 
 services:
   airsonic:
-    image: airsonic/airsonic:10.1.1-RELEASE
+    image: airsonic/airsonic:10.1.2-RELEASE
     ports:
-      - "4040"
+    - "4040"
     volumes:
-      - type: bind
-        target: /airsonic/music
-        source: ./volumes/music
-      - type: bind
-        target: /airsonic/podcasts
-        source: ./volumes/podcasts
-      - type: bind
-        target: /airsonic/playlists
-        source: ./volumes/playlists
-      - type: tmpfs
-        target: /airsonic/data
+    - type: bind
+      target: /airsonic/music
+      source: ./volumes/music
+    - type: bind
+      target: /airsonic/podcasts
+      source: ./volumes/podcasts
+    - type: bind
+      target: /airsonic/playlists
+      source: ./volumes/playlists
+    - type: tmpfs
+      target: /airsonic/data

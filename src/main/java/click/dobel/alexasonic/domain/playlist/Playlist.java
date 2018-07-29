@@ -1,21 +1,15 @@
 package click.dobel.alexasonic.domain.playlist;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
+import click.dobel.alexasonic.exception.AlexaSonicException;
 import com.google.common.annotations.VisibleForTesting;
 
-import click.dobel.alexasonic.exception.AlexaSonicException;
+import java.io.Serializable;
+import java.util.*;
 
 @SuppressWarnings("PMD.TooManyMethods")
-public class Playlist {
+public class Playlist implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @VisibleForTesting
     static final String MESSAGE_PREFIX = "Playlist";
@@ -33,7 +27,7 @@ public class Playlist {
     private List<String> items;
 
     public Playlist() {
-        this(new String[] {});
+        this(new String[]{});
     }
 
     public Playlist(final String... items) {
@@ -41,26 +35,27 @@ public class Playlist {
     }
 
     public List<String> getItems() {
-        return this.items;
+        return items;
     }
 
     public void setItems(final List<String> items) {
-        this.items = items;
+        this.items = new ArrayList<>(items);
     }
 
     public void add(final String entry) {
-        this.items.add(entry);
+        items.add(entry);
     }
 
     public String get(final String token) {
         return find(token)
-                .orElseThrow(() -> new NoSuchElementException(String.format("No playlist entry with token %s found.", token)));
+            .orElseThrow(() -> new NoSuchElementException(String.format("No playlist entry with token %s found.", token)));
     }
 
     private Optional<String> find(final String token) {
-        return items.stream() //
-                .filter(item -> token.equals(item)) //
-                .findAny();
+        return items
+            .stream()
+            .filter(item -> token.equals(item))
+            .findAny();
     }
 
     public boolean hasItem(final String token) {
@@ -69,10 +64,10 @@ public class Playlist {
 
     @SuppressWarnings("PMD.NullAssignment")
     private Optional<String> findNextOf(final String token) {
-        return Optional.of(get(token)) //
-                .map(items::indexOf) //
-                .map(index -> index >= 0 ? index + 1 : null) //
-                .map(index -> index < items.size() ? items.get(index) : null);
+        return Optional.of(get(token))
+            .map(items::indexOf)
+            .map(index -> index >= 0 ? index + 1 : null)
+            .map(index -> index < items.size() ? items.get(index) : null);
     }
 
     public boolean hasNext(final String token) {
@@ -80,15 +75,16 @@ public class Playlist {
     }
 
     public String nextOf(final String token) {
-        return findNextOf(token).orElseThrow(() -> new AlexaSonicException(MESSAGEKEY_LAST_SONG));
+        return findNextOf(token)
+            .orElseThrow(() -> new AlexaSonicException(MESSAGEKEY_LAST_SONG));
     }
 
     @SuppressWarnings("PMD.NullAssignment")
     public Optional<String> findPreviousOf(final String token) {
-        return Optional.of(get(token)) //
-                .map(items::indexOf) //
-                .map(index -> index > 0 ? index - 1 : null) //
-                .map(items::get);
+        return Optional.of(get(token))
+            .map(items::indexOf)
+            .map(index -> index > 0 ? index - 1 : null)
+            .map(items::get);
     }
 
     public boolean hasPrevious(final String token) {
@@ -96,7 +92,8 @@ public class Playlist {
     }
 
     public String previousOf(final String token) {
-        return findPreviousOf(token).orElseThrow(() -> new AlexaSonicException(MESSAGEKEY_FIRST_SONG));
+        return findPreviousOf(token)
+            .orElseThrow(() -> new AlexaSonicException(MESSAGEKEY_FIRST_SONG));
     }
 
     public String first() {
@@ -107,7 +104,7 @@ public class Playlist {
     }
 
     public void clear() {
-        this.items.clear();
+        items.clear();
     }
 
     @Override
@@ -115,13 +112,12 @@ public class Playlist {
         if (!(other instanceof Playlist)) {
             return false;
         }
-        final Playlist otherPlaylist = (Playlist) other;
-        return new EqualsBuilder().append(this.items, otherPlaylist.items).isEquals();
+        return Objects.equals(this.items, ((Playlist) other).items);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.items).toHashCode();
+        return this.items.hashCode();
     }
 
 }

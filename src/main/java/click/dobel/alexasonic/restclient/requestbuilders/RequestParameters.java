@@ -16,4 +16,6 @@ public final class RequestParameters {
     public static final String PARAM_CONVERTED = "converted";
     public static final String PARAM_COUNT = "count";
 
+    private RequestParameters() {
+    }
 }

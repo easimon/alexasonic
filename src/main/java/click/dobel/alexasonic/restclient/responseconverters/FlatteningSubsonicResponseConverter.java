@@ -3,21 +3,21 @@ package click.dobel.alexasonic.restclient.responseconverters;
 import org.subsonic.restapi.Response;
 
 public final class FlatteningSubsonicResponseConverter<T, F>
-        implements SubsonicResponseConverter<T>, SubsonicResponseFlattener<T, F> {
+    implements SubsonicResponseConverter<T>, SubsonicResponseFlattener<T, F> {
 
     private final SubsonicResponseConverter<T> converter;
 
     private final SubsonicResponseFlattener<T, F> flattener;
 
     private FlatteningSubsonicResponseConverter(final SubsonicResponseConverter<T> converter,
-            final SubsonicResponseFlattener<T, F> flattener) {
+                                                final SubsonicResponseFlattener<T, F> flattener) {
         this.converter = converter;
         this.flattener = flattener;
     }
 
     @SuppressWarnings("PMD.ShortMethodName")
     public static <T, F> FlatteningSubsonicResponseConverter<T, F> of(final SubsonicResponseConverter<T> converter,
-            final SubsonicResponseFlattener<T, F> flattener) {
+                                                                      final SubsonicResponseFlattener<T, F> flattener) {
         return new FlatteningSubsonicResponseConverter<>(converter, flattener);
     }
 

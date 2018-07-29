@@ -1,19 +1,15 @@
 package click.dobel.alexasonic.restclient.requestbuilders;
 
-import static click.dobel.alexasonic.restclient.requestbuilders.RequestParameters.*;
-
 import org.subsonic.restapi.ArtistsID3;
-
-import click.dobel.alexasonic.configuration.SubsonicCredentials;
 
 public class GetArtistsRequestBuilder extends AbstractSubsonicRequestBuilder<GetArtistsRequestBuilder, ArtistsID3> {
 
-    public GetArtistsRequestBuilder(final SubsonicCredentials configuration) {
-        super(configuration, "getArtists");
+    GetArtistsRequestBuilder() {
+        super("getArtists");
     }
 
     public GetArtistsRequestBuilder withMusicFolderId(final int musicFolderId) {
-        return with(PARAM_MUSIC_FOLDER_ID, musicFolderId);
+        return with(RequestParameters.PARAM_MUSIC_FOLDER_ID, musicFolderId);
     }
 
 }
