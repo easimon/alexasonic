@@ -5,6 +5,7 @@
 .settings
 .vscode
 .apt_generated
+.idea
 
 # Build folder
 target
