@@ -1,19 +1,23 @@
 sudo: required
 language: java
+env:
+  global:
+    secure: "oyHWa5xCZ3Def6xIRjIWf70wJVio4o8YebdpRVwrgOmRU8DqBLFmaElfh27ezJNfnKcZytnTMcqLsPq58R6jPNBgMiQokzA5CUZow515FtG8WQatQMhe0iemK52YOs87N//l/mNkl7xsuvbqawCtGgkgy7g3d8Sxe12uyTYzC0+RaW2kIeLp3y+sI4BAuGer8G/2UNijgBe172FEHma95+lLRSvVsKBQsrFy5pcC7DtUx6eGx0m7d0zFSrUEaareVvp4lKoXUehw2TC+tNjCl0yHhHVR/+dn+n7Vy3tHWDAsXa7ltIXZN2YSoVlrTNcE8jS3QycRtswDD8FY8u6yQ59+hhIU3CqGA9FZC/rYWRQaizOVDYz1+7unDvzWiRHx03AJOU5jxMbzw9/Tpgvf1Qo3UW5df4Jz2uKFlb8yWjEJIOKA7dBhk4wA0wVpa8h9qwjECUGR9sVSHzOtiUS9u/mrZ5Yos+keaeQIGn+tf+f1MOAwN6Pjltx8HV1xVI4kIHkP866eHDsPQkTw6MU1rEV4mf0KcBs3Ri580qOw0t+Q/D+pInjCL0Rc5y0qM+igvcmCJzbJy8HbctK/q+kuVbLPH9HwS8QhlsWxqIDpLo7EtYy6z2SSwb8HQECDkyum1eH7qt5cLH8hzZoGMSsZT4y/mPu/KOj/FMNOMiFZ+UA="
 jdk:
-  - oraclejdk8
+- oraclejdk8
 services:
-  - docker
+- docker
 cache:
   directories:
-  - $HOME/.m2
-script:
-  - ./mvnw test -B
-  - bash <(curl -s https://codecov.io/bash)
-after_script:
-  - cat /tmp/dockerTestLogs/*
+  - "$HOME/.m2"
 
-#addons:
-#  apt:
-#    packages:
-#      - oracle-java8-installer
+before_install:
+- sudo apt-get install jq
+- wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
+
+script:
+- "./mvnw test -B"
+
+after_success:
+- java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/site/jacoco/jacoco.xml
+- bash <(curl -s https://codecov.io/bash)

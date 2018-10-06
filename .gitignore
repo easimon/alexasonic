@@ -12,3 +12,4 @@ target
 
 # Local configuration
 application.yml
+.env
