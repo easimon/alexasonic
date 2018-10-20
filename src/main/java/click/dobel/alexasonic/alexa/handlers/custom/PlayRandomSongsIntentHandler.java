@@ -9,10 +9,8 @@ import click.dobel.alexasonic.i18n.Messages;
 import click.dobel.alexasonic.repository.DeviceSessionRepository;
 import click.dobel.alexasonic.repository.SubsonicCredentialsRepository;
 import click.dobel.alexasonic.restclient.SubsonicRestClient;
-import click.dobel.alexasonic.restclient.requestbuilders.GetRandomSongsRequestBuilder;
 import click.dobel.alexasonic.restclient.requestbuilders.RequestBuilders;
 import click.dobel.alexasonic.restclient.requestbuilders.StreamRequestBuilder;
-import click.dobel.alexasonic.restclient.responseconverters.FlatteningSubsonicResponseConverter;
 import click.dobel.alexasonic.restclient.responseconverters.ResponseConverters;
 import click.dobel.alexasonic.speechlet.SpeechletRequestUtil;
 import click.dobel.alexasonic.util.Strings;
@@ -23,7 +21,6 @@ import com.amazon.ask.request.Predicates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.subsonic.restapi.Child;
-import org.subsonic.restapi.Songs;
 
 import java.util.List;
 import java.util.Locale;
@@ -68,12 +65,9 @@ public class PlayRandomSongsIntentHandler extends AbstractDeviceSessionAwareRequ
 
         final SubsonicCredentials subsonicCredentials = subsonicCredentialsRepository.getCredentialsForUser(userId);
 
-        final GetRandomSongsRequestBuilder randomSongsRequest = RequestBuilders.getRandomSongs().withSize(50);
-        final FlatteningSubsonicResponseConverter<Songs, List<Child>> randomSongsConverter = ResponseConverters.getRandomSongs();
-
         final List<Child> songs = subsonicRestClient.executeAndFlatten(
-            randomSongsRequest,
-            randomSongsConverter,
+            RequestBuilders.getRandomSongs().withSize(50),
+            ResponseConverters.RANDOM_SONGS,
             subsonicCredentials
         );
 

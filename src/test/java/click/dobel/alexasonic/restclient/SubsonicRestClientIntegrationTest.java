@@ -39,7 +39,7 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
     public void testPing() {
         final ResponseStatus response = restClient.execute(
             RequestBuilders.ping(),
-            ResponseConverters.ping(),
+            Response::getStatus,
             credentials
         );
 
@@ -50,7 +50,7 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
     public void testGetArtists() {
         final ArtistsID3 artists = restClient.execute(
             RequestBuilders.getArtists(),
-            ResponseConverters.getArtists(),
+            ResponseConverters.ARTISTS,
             credentials
         );
 
@@ -68,7 +68,7 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
     public void testGetArtistsFlat() {
         final List<ArtistID3> artists = restClient.executeAndFlatten(
             RequestBuilders.getArtists(),
-            ResponseConverters.getArtists(),
+            ResponseConverters.ARTISTS,
             credentials
         );
 
@@ -80,7 +80,7 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
     public void testGetRandomSongs() {
         final Songs songs = restClient.execute(
             RequestBuilders.getRandomSongs().withSize(10),
-            ResponseConverters.getRandomSongs(),
+            Response::getRandomSongs,
             credentials
         );
 
@@ -95,7 +95,7 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
     public void testStream() {
         final Songs songs = restClient.execute(
             RequestBuilders.getRandomSongs().withSize(10),
-            ResponseConverters.getRandomSongs(),
+            Response::getRandomSongs,
             credentials
         );
         final Child song = songs.getSong().get(0);

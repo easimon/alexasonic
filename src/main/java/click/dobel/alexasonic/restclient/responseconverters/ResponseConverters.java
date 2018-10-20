@@ -7,17 +7,13 @@ import java.util.stream.Collectors;
 
 public final class ResponseConverters {
 
-    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-    private static final SubsonicResponseConverter<ResponseStatus> PING = response -> response.getStatus();
+    public static final SubsonicResponseConverter<ResponseStatus> PING = Response::getStatus;
 
-    private static final SubsonicResponseConverter<License> LICENSE = response -> response.getLicense();
-
-    private static final SubsonicResponseConverter<Indexes> INDEXES = response -> response.getIndexes();
-
-    private static final SubsonicResponseConverter<List<MusicFolder>> MUSIC_FOLDERS = response -> response.getMusicFolders()
+    public static final SubsonicResponseConverter<List<MusicFolder>> MUSIC_FOLDERS = response -> response
+        .getMusicFolders()
         .getMusicFolder();
 
-    private static final FlatteningSubsonicResponseConverter<ArtistsID3, List<ArtistID3>> ARTISTS = of(
+    public static final FlatteningSubsonicResponseConverter<ArtistsID3, List<ArtistID3>> ARTISTS = of(
         Response::getArtists,
         artist -> artist
             .getIndex()
@@ -29,7 +25,7 @@ public final class ResponseConverters {
             .collect(Collectors.toList())
     );
 
-    private static final FlatteningSubsonicResponseConverter<Songs, List<Child>> RANDOM_SONGS = of(
+    public static final FlatteningSubsonicResponseConverter<Songs, List<Child>> RANDOM_SONGS = of(
         Response::getRandomSongs,
         Songs::getSong
     );
@@ -42,29 +38,4 @@ public final class ResponseConverters {
                                                                        final SubsonicResponseFlattener<T, F> flattener) {
         return FlatteningSubsonicResponseConverter.of(converter, flattener);
     }
-
-    public static SubsonicResponseConverter<ResponseStatus> ping() {
-        return PING;
-    }
-
-    public static SubsonicResponseConverter<License> getLicense() {
-        return LICENSE;
-    }
-
-    public static SubsonicResponseConverter<Indexes> getIndexes() {
-        return INDEXES;
-    }
-
-    public static SubsonicResponseConverter<List<MusicFolder>> getMusicFolders() {
-        return MUSIC_FOLDERS;
-    }
-
-    public static FlatteningSubsonicResponseConverter<ArtistsID3, List<ArtistID3>> getArtists() {
-        return ARTISTS;
-    }
-
-    public static FlatteningSubsonicResponseConverter<Songs, List<Child>> getRandomSongs() {
-        return RANDOM_SONGS;
-    }
-
 }
