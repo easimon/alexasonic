@@ -1,11 +1,9 @@
 package click.dobel.alexasonic.restclient;
 
-import click.dobel.alexasonic.configuration.SubsonicCredentials;
 import click.dobel.alexasonic.restclient.requestbuilders.RequestBuilders;
 import click.dobel.alexasonic.restclient.responseconverters.ResponseConverters;
 import click.dobel.alexasonic.test.AbstractAlexaSonicIntegrationTest;
 import com.palantir.docker.compose.DockerComposeRule;
-import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +22,12 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
     @Autowired
     private SubsonicRestClient restClient;
 
-    private SubsonicCredentials credentials;
-
-    @Before
-    public void createCredentials() {
-        final String airsonicUrl = docker
-            .containers().container(CONTAINER_AIRSONIC).port(CONTAINER_AIRSONIC_PORT)
-            .inFormat("http://$HOST:$EXTERNAL_PORT/");
-
-        this.credentials = new SubsonicCredentials(airsonicUrl, "admin", "admin");
-    }
-
     @Test
     public void testPing() {
         final ResponseStatus response = restClient.execute(
             RequestBuilders.ping(),
             Response::getStatus,
-            credentials
+            getTestCredentials()
         );
 
         assertThat(response).isEqualTo(ResponseStatus.OK);
@@ -51,7 +38,7 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
         final ArtistsID3 artists = restClient.execute(
             RequestBuilders.getArtists(),
             ResponseConverters.ARTISTS,
-            credentials
+            getTestCredentials()
         );
 
         assertThat(artists).isNotNull();
@@ -69,7 +56,7 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
         final List<ArtistID3> artists = restClient.executeAndFlatten(
             RequestBuilders.getArtists(),
             ResponseConverters.ARTISTS,
-            credentials
+            getTestCredentials()
         );
 
         assertThat(artists).isNotNull();
@@ -81,7 +68,7 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
         final Songs songs = restClient.execute(
             RequestBuilders.getRandomSongs().withSize(10),
             Response::getRandomSongs,
-            credentials
+            getTestCredentials()
         );
 
         assertThat(songs).isNotNull();
@@ -96,11 +83,11 @@ public class SubsonicRestClientIntegrationTest extends AbstractAlexaSonicIntegra
         final Songs songs = restClient.execute(
             RequestBuilders.getRandomSongs().withSize(10),
             Response::getRandomSongs,
-            credentials
+            getTestCredentials()
         );
         final Child song = songs.getSong().get(0);
         final String songId = song.getId();
 
-        System.out.println(RequestBuilders.stream().withId(songId).getUri(credentials));
+        System.out.println(RequestBuilders.stream().withId(songId).getUri(getTestCredentials()));
     }
 }
