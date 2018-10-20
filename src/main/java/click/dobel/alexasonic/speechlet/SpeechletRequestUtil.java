@@ -1,11 +1,11 @@
 package click.dobel.alexasonic.speechlet;
 
 import click.dobel.alexasonic.exception.AlexaSonicException;
-import click.dobel.alexasonic.util.Strings;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.*;
 import com.amazon.ask.model.interfaces.audioplayer.AudioPlayerState;
 import com.amazon.ask.model.interfaces.system.SystemState;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
@@ -33,7 +33,7 @@ public final class SpeechletRequestUtil {
 
     private static String shortenId(final String theId) {
         // TODO: are rightmost characters variable enough?
-        return Strings.right(theId, 7);
+        return StringUtils.right(theId, 7);
     }
 
     public static String getUserId(final RequestEnvelope requestEnvelope) {

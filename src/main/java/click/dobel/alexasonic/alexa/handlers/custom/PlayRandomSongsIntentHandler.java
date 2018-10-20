@@ -13,11 +13,11 @@ import click.dobel.alexasonic.restclient.requestbuilders.RequestBuilders;
 import click.dobel.alexasonic.restclient.requestbuilders.StreamRequestBuilder;
 import click.dobel.alexasonic.restclient.responseconverters.ResponseConverters;
 import click.dobel.alexasonic.speechlet.SpeechletRequestUtil;
-import click.dobel.alexasonic.util.Strings;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.interfaces.audioplayer.PlayBehavior;
 import com.amazon.ask.request.Predicates;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.subsonic.restapi.Child;
@@ -95,7 +95,7 @@ public class PlayRandomSongsIntentHandler extends AbstractDeviceSessionAwareRequ
                 firstSong.getArtist()))
             .withSimpleCard(
                 messages.getMessage(MESSAGEKEY_CARD_TITLE, locale),
-                Strings.join(
+                StringUtils.join(
                     songs.stream()
                         .map(song -> String.format(
                             "%s: %s (%s)",
@@ -104,7 +104,8 @@ public class PlayRandomSongsIntentHandler extends AbstractDeviceSessionAwareRequ
                             song.getYear()
                             )
                         )
-                        .collect(Collectors.toList()), "\n")
+                        .collect(Collectors.toList()),
+                    "\n")
             )
             .addAudioPlayerPlayDirective(
                 PlayBehavior.REPLACE_ALL,
