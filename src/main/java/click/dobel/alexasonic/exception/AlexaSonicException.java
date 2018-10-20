@@ -28,7 +28,11 @@ public class AlexaSonicException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        final String args = " [" + StringUtils.join(errorMessageArgs, ',') + "]";
-        return getErrorMessageKey() + args;
+        if (errorMessageArgs.isEmpty()) {
+            return getErrorMessageKey();
+        } else {
+            final String args = " [" + StringUtils.join(errorMessageArgs, ',') + "]";
+            return getErrorMessageKey() + args;
+        }
     }
 }
