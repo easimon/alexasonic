@@ -31,7 +31,7 @@ public class PlaybackFailedHandler extends AbstractDeviceSessionAwareRequestHand
     }
 
     @Override
-    public Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
         deviceSession.getPlaylist().clear();
 
         final PlaybackFailedRequest request = (PlaybackFailedRequest) input.getRequestEnvelope().getRequest();

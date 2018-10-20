@@ -35,7 +35,7 @@ public class ResumeIntentRequestHandler extends AbstractDeviceSessionAwareReques
     }
 
     @Override
-    public Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
         final String token = deviceSession.getLastAudioPlayerToken();
         if (token == null) {
             throw new AlexaSonicException(MESSAGEKEY_NOT_PLAYING);

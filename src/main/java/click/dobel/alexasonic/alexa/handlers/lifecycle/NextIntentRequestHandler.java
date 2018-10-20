@@ -31,7 +31,7 @@ public class NextIntentRequestHandler extends AbstractDeviceSessionAwareRequestH
     }
 
     @Override
-    public Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
         final String currentToken = SpeechletRequestUtil.getAudioPlayerToken(input.getRequestEnvelope());
         final String next = deviceSession.getPlaylist().nextOf(currentToken);
 

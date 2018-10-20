@@ -28,7 +28,7 @@ public class PauseIntentRequestHandler extends AbstractDeviceSessionAwareRequest
     }
 
     @Override
-    public Optional<Response> handle(final HandlerInput input, final DeviceSession session) {
+    protected Optional<Response> handle(final HandlerInput input, final DeviceSession session) {
 
         SpeechletRequestUtil.getAudioPlayerState(input.getRequestEnvelope()).ifPresent(state -> {
             state.getOffsetInMilliseconds();

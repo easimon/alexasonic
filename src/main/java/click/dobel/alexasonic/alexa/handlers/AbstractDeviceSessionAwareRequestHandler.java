@@ -16,7 +16,7 @@ public abstract class AbstractDeviceSessionAwareRequestHandler implements Reques
         this.deviceSessionRepository = deviceSessionRepository;
     }
 
-    public abstract Optional<Response> handle(HandlerInput input, DeviceSession deviceSession);
+    protected abstract Optional<Response> handle(HandlerInput input, DeviceSession deviceSession);
 
     @Override
     public final Optional<Response> handle(final HandlerInput input) {

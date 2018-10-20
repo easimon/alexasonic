@@ -59,7 +59,7 @@ public class PlayRandomSongsIntentHandler extends AbstractDeviceSessionAwareRequ
     }
 
     @Override
-    public Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
         final String userId = SpeechletRequestUtil.getUserId(input.getRequestEnvelope());
         final Locale locale = SpeechletRequestUtil.getLocale(input);
 

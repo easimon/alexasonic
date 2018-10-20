@@ -32,7 +32,7 @@ public class PlaybackNearlyFinishedRequestHandler extends AbstractDeviceSessionA
     }
 
     @Override
-    public Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
         final PlaybackNearlyFinishedRequest request = (PlaybackNearlyFinishedRequest) input.getRequestEnvelope().getRequest();
 
         final String currentToken = request.getToken();
