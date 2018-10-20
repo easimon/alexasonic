@@ -1,31 +1,34 @@
 package click.dobel.alexasonic.exception;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class AlexaSonicException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
     private final String errorMessageKey;
-    private final Object[] errorMessageArgs;
+    private final List<Object> errorMessageArgs;
 
-    @SuppressWarnings("PMD.ArrayIsStoredDirectly")
     public AlexaSonicException(final String errorMessageKey, final Object... errorMessageArgs) {
         super();
         this.errorMessageKey = errorMessageKey;
-        this.errorMessageArgs = errorMessageArgs;
+        this.errorMessageArgs = Arrays.asList(errorMessageArgs);
     }
 
     public String getErrorMessageKey() {
         return errorMessageKey;
     }
 
-    @SuppressWarnings("PMD.MethodReturnsInternalArray")
     public Object[] getErrorMessageArgs() {
-        return errorMessageArgs;
+        return errorMessageArgs.toArray();
     }
 
     @Override
     public String getMessage() {
-        return getErrorMessageKey();
+        final String args = " [" + StringUtils.join(errorMessageArgs, ',') + "]";
+        return getErrorMessageKey() + args;
     }
-
 }
