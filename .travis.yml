@@ -12,12 +12,11 @@ cache:
   - "$HOME/.m2"
 
 before_install:
-- sudo apt-get install jq
-- wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
+- rm -f ./codacy-coverage-reporter-assembly.jar && ./mvnw dependency:copy -B -Dartifact=com.codacy:codacy-coverage-reporter:RELEASE:jar:assembly -DoutputDirectory=. -Dmdep.stripVersion=true
 
 script:
 - "./mvnw test -B"
 
 after_success:
-- java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/site/jacoco/jacoco.xml
+- java -jar ./codacy-coverage-reporter-assembly.jar report -l Java -r target/site/jacoco/jacoco.xml
 - bash <(curl -s https://codecov.io/bash)
