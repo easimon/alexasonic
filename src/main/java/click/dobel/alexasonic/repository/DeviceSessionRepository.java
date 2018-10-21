@@ -8,19 +8,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeviceSessionRepository extends AbstractAttributesRepository<DeviceSession> {
 
-    private static final String ATTRIBUTE_NAME = "deviceSession";
+  private static final String ATTRIBUTE_NAME = "deviceSession";
 
-    public DeviceSessionRepository() {
-        super(ATTRIBUTE_NAME, AbstractAttributesRepository.PERSISTENT);
-    }
+  public DeviceSessionRepository() {
+    super(ATTRIBUTE_NAME, AbstractAttributesRepository.PERSISTENT);
+  }
 
-    public DeviceSession getDeviceSession(final HandlerInput input) {
-        return getOrDefault(input, i ->
-            new DeviceSession(SpeechletRequestUtil.getDeviceId(i.getRequestEnvelope()))
-        );
-    }
+  public DeviceSession getDeviceSession(final HandlerInput input) {
+    return getOrDefault(input, i ->
+      new DeviceSession(SpeechletRequestUtil.getDeviceId(i.getRequestEnvelope()))
+    );
+  }
 
-    public DeviceSession saveDeviceSession(final DeviceSession deviceSession, final HandlerInput input) {
-        return put(deviceSession, input);
-    }
+  public DeviceSession saveDeviceSession(final DeviceSession deviceSession, final HandlerInput input) {
+    return put(deviceSession, input);
+  }
 }

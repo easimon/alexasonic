@@ -15,34 +15,34 @@ import java.util.Optional;
 @Component
 public class AlexaSonicExceptionHandler implements ExceptionHandler {
 
-    private static final String MESSAGEKEY_ERROR_GENERIC = "Error.Generic";
+  private static final String MESSAGEKEY_ERROR_GENERIC = "Error.Generic";
 
-    private final Messages messages;
+  private final Messages messages;
 
-    @Autowired
-    public AlexaSonicExceptionHandler(final Messages messages) {
-        this.messages = messages;
-    }
+  @Autowired
+  public AlexaSonicExceptionHandler(final Messages messages) {
+    this.messages = messages;
+  }
 
-    @Override
-    public boolean canHandle(final HandlerInput input, final Throwable throwable) {
-        return throwable instanceof AlexaSonicException;
-    }
+  @Override
+  public boolean canHandle(final HandlerInput input, final Throwable throwable) {
+    return throwable instanceof AlexaSonicException;
+  }
 
-    @Override
-    public Optional<Response> handle(final HandlerInput input, final Throwable throwable) {
+  @Override
+  public Optional<Response> handle(final HandlerInput input, final Throwable throwable) {
 
-        final AlexaSonicException exception = (AlexaSonicException) throwable;
-        final Locale locale = SpeechletRequestUtil.getLocale(input);
-        final String errorMessage = messages.getMessage(
-            exception.getErrorMessageKey(),
-            MESSAGEKEY_ERROR_GENERIC,
-            locale,
-            exception.getErrorMessageArgs()
-        );
+    final AlexaSonicException exception = (AlexaSonicException) throwable;
+    final Locale locale = SpeechletRequestUtil.getLocale(input);
+    final String errorMessage = messages.getMessage(
+      exception.getErrorMessageKey(),
+      MESSAGEKEY_ERROR_GENERIC,
+      locale,
+      exception.getErrorMessageArgs()
+    );
 
-        return input.getResponseBuilder()
-            .withSpeech(errorMessage)
-            .build();
-    }
+    return input.getResponseBuilder()
+      .withSpeech(errorMessage)
+      .build();
+  }
 }

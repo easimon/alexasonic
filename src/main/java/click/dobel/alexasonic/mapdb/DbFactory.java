@@ -4,12 +4,12 @@ import org.mapdb.DB;
 import org.mapdb.DBMaker;
 
 public interface DbFactory {
-    DB createDb();
+  DB createDb();
 
-    static DB applyCommonOptions(final DBMaker.Maker maker) {
-        return maker
-            .transactionEnable()
-            .closeOnJvmShutdown()
-            .make();
-    }
+  static DB applyCommonOptions(final DBMaker.Maker maker) {
+    return maker
+      .transactionEnable()
+      .closeOnJvmShutdown()
+      .make();
+  }
 }

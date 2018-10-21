@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JacksonConfiguration {
 
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jaxbEnablingCustomizer() {
-        return builder -> builder.modules(new JaxbAnnotationModule());
-    }
+  @Bean
+  public Jackson2ObjectMapperBuilderCustomizer jaxbEnablingCustomizer() {
+    return builder -> builder.modules(new JaxbAnnotationModule());
+  }
 }

@@ -10,20 +10,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PlaybackFinishedHandlerTest extends AbstractHandlerTest {
 
-    private final RequestHandler handler = new PlaybackFinishedHandler();
+  private final RequestHandler handler = new PlaybackFinishedHandler();
 
-    @Test
-    public void canHandlePlaybackFinished() {
-        assertThat(handler.canHandle(createTestInput())).isTrue();
-    }
+  @Test
+  public void canHandlePlaybackFinished() {
+    assertThat(handler.canHandle(createTestInput())).isTrue();
+  }
 
-    @Test
-    public void handle() {
-        assertThat(handler.handle(createTestInput())).isEmpty();
-    }
+  @Test
+  public void handle() {
+    assertThat(handler.handle(createTestInput())).isEmpty();
+  }
 
-    @Override
-    protected Request createDefaultTestRequest() {
-        return PlaybackFinishedRequest.builder().build();
-    }
+  @Override
+  protected Request createDefaultTestRequest() {
+    return PlaybackFinishedRequest.builder().build();
+  }
 }

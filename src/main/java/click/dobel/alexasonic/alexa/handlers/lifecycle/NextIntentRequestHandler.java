@@ -17,32 +17,32 @@ import java.util.Optional;
 @Component
 public class NextIntentRequestHandler extends AbstractDeviceSessionAwareRequestHandler {
 
-    @Autowired
-    public NextIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
-        super(deviceSessionRepository);
-    }
+  @Autowired
+  public NextIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
+    super(deviceSessionRepository);
+  }
 
-    @Override
-    public boolean canHandle(final HandlerInput input) {
-        return input.matches(
-            Predicates.requestType(NextCommandIssuedRequest.class)
-                .or(Predicates.intentName("AMAZON.NextIntent"))
-        );
-    }
+  @Override
+  public boolean canHandle(final HandlerInput input) {
+    return input.matches(
+      Predicates.requestType(NextCommandIssuedRequest.class)
+        .or(Predicates.intentName("AMAZON.NextIntent"))
+    );
+  }
 
-    @Override
-    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
-        final String currentToken = SpeechletRequestUtil.getAudioPlayerToken(input.getRequestEnvelope());
-        final String next = deviceSession.getPlaylist().nextOf(currentToken);
+  @Override
+  protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    final String currentToken = SpeechletRequestUtil.getAudioPlayerToken(input.getRequestEnvelope());
+    final String next = deviceSession.getPlaylist().nextOf(currentToken);
 
-        return input.getResponseBuilder()
-            .addAudioPlayerPlayDirective(
-                PlayBehavior.REPLACE_ALL,
-                null,
-                currentToken,
-                next,
-                next
-            )
-            .build();
-    }
+    return input.getResponseBuilder()
+      .addAudioPlayerPlayDirective(
+        PlayBehavior.REPLACE_ALL,
+        null,
+        currentToken,
+        next,
+        next
+      )
+      .build();
+  }
 }

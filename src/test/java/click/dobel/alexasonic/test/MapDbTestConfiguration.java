@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class MapDbTestConfiguration {
 
-    @Bean
-    @Primary
-    public DbFactory dbFactory() {
-        return DbFactories.mem();
-    }
+  @Bean
+  @Primary
+  public DbFactory dbFactory() {
+    return DbFactories.mem();
+  }
 }

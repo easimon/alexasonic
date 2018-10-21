@@ -20,26 +20,26 @@ import static click.dobel.alexasonic.alexa.aspects.AspectUtil.logger;
 @Order(Ordered.HIGHEST_PRECEDENCE + 2)
 public class MdcHandlerAspect {
 
-    @Pointcut("(" +
-        "       (Pointcuts.handleInvocation() || Pointcuts.canHandleInvocation()) " +
-        "    && (Pointcuts.requestHandler() || Pointcuts.errorHandler())" +
-        ")")
-    public void mdc() {
-    }
+  @Pointcut("("
+    + "      (Pointcuts.handleInvocation() || Pointcuts.canHandleInvocation()) "
+    + "   && (Pointcuts.requestHandler() || Pointcuts.errorHandler())"
+    + ")")
+  public void mdc() {
+  }
 
-    @Before("mdc() && args(input)")
-    public void setMdc(final JoinPoint jp, final HandlerInput input) {
-        final RequestEnvelope envelope = input.getRequestEnvelope();
-        final String userId = SpeechletRequestUtil.getShortUserId(envelope);
-        final String deviceId = SpeechletRequestUtil.getShortDeviceId(envelope);
+  @Before("mdc() && args(input)")
+  public void setMdc(final JoinPoint jp, final HandlerInput input) {
+    final RequestEnvelope envelope = input.getRequestEnvelope();
+    final String userId = SpeechletRequestUtil.getShortUserId(envelope);
+    final String deviceId = SpeechletRequestUtil.getShortDeviceId(envelope);
 
-        MDC.put("mdcData", String.format("u: %s, d: %s", userId, deviceId));
-        logger(jp).trace("MDC created.");
-    }
+    MDC.put("mdcData", String.format("u: %s, d: %s", userId, deviceId));
+    logger(jp).trace("MDC created.");
+  }
 
-    @After("mdc()")
-    public void clearMdc(final JoinPoint jp) {
-        logger(jp).trace("Clearing MDC.");
-        MDC.clear();
-    }
+  @After("mdc()")
+  public void clearMdc(final JoinPoint jp) {
+    logger(jp).trace("Clearing MDC.");
+    MDC.clear();
+  }
 }

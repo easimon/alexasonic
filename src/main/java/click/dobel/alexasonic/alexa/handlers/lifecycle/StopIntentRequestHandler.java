@@ -11,18 +11,18 @@ import java.util.Optional;
 @Component
 public class StopIntentRequestHandler implements RequestHandler {
 
-    @Override
-    public boolean canHandle(final HandlerInput input) {
-        return input.matches(
-            Predicates.intentName("AMAZON.StopIntent")
-                .or(Predicates.intentName("AMAZON.CancelIntent"))
-        );
-    }
+  @Override
+  public boolean canHandle(final HandlerInput input) {
+    return input.matches(
+      Predicates.intentName("AMAZON.StopIntent")
+        .or(Predicates.intentName("AMAZON.CancelIntent"))
+    );
+  }
 
-    @Override
-    public Optional<Response> handle(final HandlerInput input) {
-        return input.getResponseBuilder()
-            .addAudioPlayerStopDirective()
-            .build();
-    }
+  @Override
+  public Optional<Response> handle(final HandlerInput input) {
+    return input.getResponseBuilder()
+      .addAudioPlayerStopDirective()
+      .build();
+  }
 }

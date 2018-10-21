@@ -13,37 +13,37 @@ import static click.dobel.alexasonic.alexa.aspects.AspectUtil.logger;
 @Component
 public class LoggingAspect {
 
-    @Pointcut("(" +
-        "       (Pointcuts.canHandleInvocation()) " +
-        "    && (Pointcuts.requestHandler() || Pointcuts.errorHandler())" +
-        ")")
-    public void canHandle() {
-    }
+  @Pointcut("("
+    + "      (Pointcuts.canHandleInvocation()) "
+    + "   && (Pointcuts.requestHandler() || Pointcuts.errorHandler())"
+    + ")")
+  public void canHandle() {
+  }
 
-    @Pointcut("(" +
-        "       (Pointcuts.handleInvocation()) " +
-        "    && (Pointcuts.requestHandler() || Pointcuts.errorHandler())" +
-        ")")
-    public void handle() {
-    }
+  @Pointcut("("
+    + "      (Pointcuts.handleInvocation()) "
+    + "   && (Pointcuts.requestHandler() || Pointcuts.errorHandler())"
+    + ")")
+  public void handle() {
+  }
 
-    @Before("canHandle()")
-    public void logCanHandleBeforeInvocation(final JoinPoint jp) {
-        logger(jp).debug("invoking canHandle()");
-    }
+  @Before("canHandle()")
+  public void logCanHandleBeforeInvocation(final JoinPoint jp) {
+    logger(jp).debug("invoking canHandle()");
+  }
 
-    @After("canHandle()")
-    public void logCanHandleAfterInvocation(final JoinPoint jp) {
-        logger(jp).debug("invoked canHandle()", (Object) jp.getArgs());
-    }
+  @After("canHandle()")
+  public void logCanHandleAfterInvocation(final JoinPoint jp) {
+    logger(jp).debug("invoked canHandle()", (Object) jp.getArgs());
+  }
 
-    @Before("handle()")
-    public void logHandleBeforeInvocation(final JoinPoint jp) {
-        logger(jp).info("invoking handle()");
-    }
+  @Before("handle()")
+  public void logHandleBeforeInvocation(final JoinPoint jp) {
+    logger(jp).info("invoking handle()");
+  }
 
-    @After("handle()")
-    public void logHandleAfterInvocation(final JoinPoint jp) {
-        logger(jp).debug("invoked handle()");
-    }
+  @After("handle()")
+  public void logHandleAfterInvocation(final JoinPoint jp) {
+    logger(jp).debug("invoked handle()");
+  }
 }

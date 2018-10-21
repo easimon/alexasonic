@@ -8,13 +8,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SubsonicCredentialsSpringTest extends AbstractAlexaSonicSpringTest {
 
-    @Autowired
-    private SubsonicCredentials configuration;
+  @Autowired
+  private SubsonicCredentials configuration;
 
-    @Test
-    public void testConfigurationValuesNotNull() {
-        assertThat(configuration.getUsername()).isNotNull();
-        assertThat(configuration.getPassword()).isNotNull();
-        assertThat(configuration.getUrl()).isNotNull();
-    }
+  @Test
+  public void testConfigurationValuesNotNull() {
+    assertThat(configuration.getUsername()).isNotNull();
+    assertThat(configuration.getPassword()).isNotNull();
+    assertThat(configuration.getUrl()).isNotNull();
+  }
 }

@@ -13,31 +13,31 @@ import static org.mockito.Mockito.*;
 
 public class PlaybackFailedHandlerTest extends AbstractDeviceSessionAwareRequestHandlerTest {
 
-    private PlaybackFailedHandler handler;
+  private PlaybackFailedHandler handler;
 
-    @Before
-    public void initHandler() {
-        handler = new PlaybackFailedHandler(deviceSessionRepository);
-    }
+  @Before
+  public void initHandler() {
+    handler = new PlaybackFailedHandler(deviceSessionRepository);
+  }
 
-    @Test
-    public void canHandlePlaybackFailed() {
-        assertThat(handler.canHandle(createTestInput())).isTrue();
-    }
+  @Test
+  public void canHandlePlaybackFailed() {
+    assertThat(handler.canHandle(createTestInput())).isTrue();
+  }
 
-    @Test
-    public void handle() {
-        assertThat(handler.handle(createTestInput())).isEmpty();
-        verify(playlist, times(1)).clear();
-    }
+  @Test
+  public void handle() {
+    assertThat(handler.handle(createTestInput())).isEmpty();
+    verify(playlist, times(1)).clear();
+  }
 
-    @Override
-    protected Request createDefaultTestRequest() {
-        return PlaybackFailedRequest.builder()
-            .withError(Error.builder()
-                .withMessage("TestMessage")
-                .withType(ErrorType.MEDIA_ERROR_INTERNAL_DEVICE_ERROR)
-                .build())
-            .build();
-    }
+  @Override
+  protected Request createDefaultTestRequest() {
+    return PlaybackFailedRequest.builder()
+      .withError(Error.builder()
+        .withMessage("TestMessage")
+        .withType(ErrorType.MEDIA_ERROR_INTERNAL_DEVICE_ERROR)
+        .build())
+      .build();
+  }
 }

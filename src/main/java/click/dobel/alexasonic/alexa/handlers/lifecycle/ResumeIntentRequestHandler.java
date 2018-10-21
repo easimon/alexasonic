@@ -20,41 +20,41 @@ import java.util.Optional;
 @Component
 public class ResumeIntentRequestHandler extends AbstractDeviceSessionAwareRequestHandler {
 
-    private static final String MESSAGEKEY_NOT_PLAYING = SpeechletRequestUtil.MESSAGEKEY_NOT_PLAYING;
+  private static final String MESSAGEKEY_NOT_PLAYING = SpeechletRequestUtil.MESSAGEKEY_NOT_PLAYING;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResumeIntentRequestHandler.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ResumeIntentRequestHandler.class);
 
-    @Autowired
-    public ResumeIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
-        super(deviceSessionRepository);
+  @Autowired
+  public ResumeIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
+    super(deviceSessionRepository);
+  }
+
+  @Override
+  public boolean canHandle(final HandlerInput input) {
+    return input.matches(Predicates.intentName("AMAZON.ResumeIntent"));
+  }
+
+  @Override
+  protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    final String token = deviceSession.getLastAudioPlayerToken();
+    if (token == null) {
+      throw new AlexaSonicException(MESSAGEKEY_NOT_PLAYING);
     }
 
-    @Override
-    public boolean canHandle(final HandlerInput input) {
-        return input.matches(Predicates.intentName("AMAZON.ResumeIntent"));
-    }
+    final Playlist playlist = deviceSession.getPlaylist();
+    final String url = playlist.get(token);
+    final Long offsetInMilliseconds = deviceSession.getLastAudioPlayerOffsetInMilliseconds();
 
-    @Override
-    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
-        final String token = deviceSession.getLastAudioPlayerToken();
-        if (token == null) {
-            throw new AlexaSonicException(MESSAGEKEY_NOT_PLAYING);
-        }
+    LOGGER.debug("Received resume request for token {}.", token);
 
-        final Playlist playlist = deviceSession.getPlaylist();
-        final String url = playlist.get(token);
-        final Long offsetInMilliseconds = deviceSession.getLastAudioPlayerOffsetInMilliseconds();
-
-        LOGGER.debug("Received resume request for token {}.", token);
-
-        return input.getResponseBuilder()
-            .addAudioPlayerPlayDirective(
-                PlayBehavior.REPLACE_ALL,
-                offsetInMilliseconds,
-                null,
-                url,
-                url
-            )
-            .build();
-    }
+    return input.getResponseBuilder()
+      .addAudioPlayerPlayDirective(
+        PlayBehavior.REPLACE_ALL,
+        offsetInMilliseconds,
+        null,
+        url,
+        url
+      )
+      .build();
+  }
 }

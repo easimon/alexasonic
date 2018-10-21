@@ -5,6 +5,5 @@ import org.subsonic.restapi.Response;
 @FunctionalInterface
 public interface SubsonicResponseConverter<T> {
 
-    T convert(Response response);
-
+  T convert(Response response);
 }

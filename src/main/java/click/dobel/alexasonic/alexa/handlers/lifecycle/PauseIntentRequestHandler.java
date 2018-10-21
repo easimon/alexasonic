@@ -15,30 +15,30 @@ import java.util.Optional;
 @Component
 public class PauseIntentRequestHandler extends AbstractDeviceSessionAwareRequestHandler {
 
-    public PauseIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
-        super(deviceSessionRepository);
-    }
+  public PauseIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
+    super(deviceSessionRepository);
+  }
 
-    @Override
-    public boolean canHandle(final HandlerInput input) {
-        return input.matches(
-            Predicates.requestType(PauseCommandIssuedRequest.class)
-                .or(Predicates.intentName("AMAZON.PauseIntent"))
-        );
-    }
+  @Override
+  public boolean canHandle(final HandlerInput input) {
+    return input.matches(
+      Predicates.requestType(PauseCommandIssuedRequest.class)
+        .or(Predicates.intentName("AMAZON.PauseIntent"))
+    );
+  }
 
-    @Override
-    protected Optional<Response> handle(final HandlerInput input, final DeviceSession session) {
+  @Override
+  protected Optional<Response> handle(final HandlerInput input, final DeviceSession session) {
 
-        SpeechletRequestUtil.getAudioPlayerState(input.getRequestEnvelope()).ifPresent(state -> {
-            state.getOffsetInMilliseconds();
-            state.getPlayerActivity();
-        });
+    SpeechletRequestUtil.getAudioPlayerState(input.getRequestEnvelope()).ifPresent(state -> {
+      state.getOffsetInMilliseconds();
+      state.getPlayerActivity();
+    });
 
-        SpeechletRequestUtil.getAudioPlayerToken(input.getRequestEnvelope());
-        SpeechletRequestUtil.getAudioPlayerOffsetInMilliseconds(input.getRequestEnvelope());
-        return input.getResponseBuilder()
-            .addAudioPlayerStopDirective()
-            .build();
-    }
+    SpeechletRequestUtil.getAudioPlayerToken(input.getRequestEnvelope());
+    SpeechletRequestUtil.getAudioPlayerOffsetInMilliseconds(input.getRequestEnvelope());
+    return input.getResponseBuilder()
+      .addAudioPlayerStopDirective()
+      .build();
+  }
 }

@@ -18,36 +18,36 @@ import java.util.Optional;
 @Component
 public class StartOverIntentRequestHandler extends AbstractDeviceSessionAwareRequestHandler {
 
-    private static final String MESSAGEKEY_NOT_PLAYING = SpeechletRequestUtil.MESSAGEKEY_NOT_PLAYING;
+  private static final String MESSAGEKEY_NOT_PLAYING = SpeechletRequestUtil.MESSAGEKEY_NOT_PLAYING;
 
-    @Autowired
-    public StartOverIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
-        super(deviceSessionRepository);
+  @Autowired
+  public StartOverIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
+    super(deviceSessionRepository);
+  }
+
+  @Override
+  public boolean canHandle(final HandlerInput input) {
+    return input.matches(Predicates.intentName("AMAZON.StartOverIntent"));
+  }
+
+  @Override
+  protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    final String token = deviceSession.getLastAudioPlayerToken();
+    if (token == null) {
+      throw new AlexaSonicException(MESSAGEKEY_NOT_PLAYING);
     }
 
-    @Override
-    public boolean canHandle(final HandlerInput input) {
-        return input.matches(Predicates.intentName("AMAZON.StartOverIntent"));
-    }
+    final Playlist playlist = deviceSession.getPlaylist();
+    final String url = playlist.get(token);
 
-    @Override
-    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
-        final String token = deviceSession.getLastAudioPlayerToken();
-        if (token == null) {
-            throw new AlexaSonicException(MESSAGEKEY_NOT_PLAYING);
-        }
-
-        final Playlist playlist = deviceSession.getPlaylist();
-        final String url = playlist.get(token);
-
-        return input.getResponseBuilder()
-            .addAudioPlayerPlayDirective(
-                PlayBehavior.REPLACE_ALL,
-                0L,
-                null,
-                url,
-                url
-            )
-            .build();
-    }
+    return input.getResponseBuilder()
+      .addAudioPlayerPlayDirective(
+        PlayBehavior.REPLACE_ALL,
+        0L,
+        null,
+        url,
+        url
+      )
+      .build();
+  }
 }

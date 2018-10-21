@@ -18,27 +18,27 @@ import java.util.Optional;
 @Component
 public class PlaybackFailedHandler extends AbstractDeviceSessionAwareRequestHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PlaybackFailedHandler.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PlaybackFailedHandler.class);
 
-    @Autowired
-    public PlaybackFailedHandler(final DeviceSessionRepository deviceSessionRepository) {
-        super(deviceSessionRepository);
-    }
+  @Autowired
+  public PlaybackFailedHandler(final DeviceSessionRepository deviceSessionRepository) {
+    super(deviceSessionRepository);
+  }
 
-    @Override
-    public boolean canHandle(final HandlerInput input) {
-        return input.matches(Predicates.requestType(PlaybackFailedRequest.class));
-    }
+  @Override
+  public boolean canHandle(final HandlerInput input) {
+    return input.matches(Predicates.requestType(PlaybackFailedRequest.class));
+  }
 
-    @Override
-    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
-        deviceSession.getPlaylist().clear();
+  @Override
+  protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    deviceSession.getPlaylist().clear();
 
-        final PlaybackFailedRequest request = (PlaybackFailedRequest) input.getRequestEnvelope().getRequest();
-        final String error = request.getError().getMessage();
-        final ErrorType type = request.getError().getType();
+    final PlaybackFailedRequest request = (PlaybackFailedRequest) input.getRequestEnvelope().getRequest();
+    final String error = request.getError().getMessage();
+    final ErrorType type = request.getError().getType();
 
-        LOGGER.warn("Playback of item failed: {},{}. Playlist cleared.", type, error);
-        return Optional.empty();
-    }
+    LOGGER.warn("Playback of item failed: {},{}. Playlist cleared.", type, error);
+    return Optional.empty();
+  }
 }

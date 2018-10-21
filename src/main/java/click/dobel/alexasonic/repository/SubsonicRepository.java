@@ -11,18 +11,17 @@ import java.util.List;
 
 @Repository
 public class SubsonicRepository {
-    private final SubsonicRestClient restClient;
+  private final SubsonicRestClient restClient;
 
-    public SubsonicRepository(final SubsonicRestClient restClient) {
-        this.restClient = restClient;
-    }
+  public SubsonicRepository(final SubsonicRestClient restClient) {
+    this.restClient = restClient;
+  }
 
-    public List<ArtistID3> getAllArtists(final SubsonicCredentials subsonicCredentials) {
-        final List<ArtistID3> artists = restClient.executeAndFlatten(
-            RequestBuilders.getArtists(),
-            ResponseConverters.ARTISTS,
-            subsonicCredentials
-        );
-        return artists;
-    }
+  public List<ArtistID3> getAllArtists(final SubsonicCredentials subsonicCredentials) {
+    return restClient.executeAndFlatten(
+      RequestBuilders.getArtists(),
+      ResponseConverters.ARTISTS,
+      subsonicCredentials
+    );
+  }
 }

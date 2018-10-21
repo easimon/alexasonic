@@ -18,76 +18,76 @@ import java.util.List;
 @Ignore("No assertions, only for local verification of MDC/logging aspect.")
 public class AspectLoggingTest extends AbstractAlexaSonicSpringTest {
 
-    @Autowired
-    private List<RequestHandler> requestHandlers;
+  @Autowired
+  private List<RequestHandler> requestHandlers;
 
-    private RequestHandler someHandler;
+  private RequestHandler someHandler;
 
-    private static final String userId = "1234567";
-    private static final String deviceId = "7654321";
+  private static final String userId = "1234567";
+  private static final String deviceId = "7654321";
 
-    @Before
-    public void findAnyHandler() {
-        someHandler = requestHandlers.get(0);
-    }
+  @Before
+  public void findAnyHandler() {
+    someHandler = requestHandlers.get(0);
+  }
 
-    @Test
-    public void canHandleWithUserIdAndDeviceId() {
-        someHandler.canHandle(HandlerInput.builder()
-            .withRequestEnvelope(
-                RequestEnvelope.builder()
-                    .withContext(Context.builder()
-                        .withSystem(SystemState.builder()
-                            .withUser(User.builder()
-                                .withUserId(userId)
-                                .build())
-                            .withDevice(Device.builder()
-                                .withDeviceId(deviceId)
-                                .build())
-                            .build())
-                        .build())
-                    .build())
-            .build());
-    }
+  @Test
+  public void canHandleWithUserIdAndDeviceId() {
+    someHandler.canHandle(HandlerInput.builder()
+      .withRequestEnvelope(
+        RequestEnvelope.builder()
+          .withContext(Context.builder()
+            .withSystem(SystemState.builder()
+              .withUser(User.builder()
+                .withUserId(userId)
+                .build())
+              .withDevice(Device.builder()
+                .withDeviceId(deviceId)
+                .build())
+              .build())
+            .build())
+          .build())
+      .build());
+  }
 
-    @Test
-    public void canHandleWithUserId() {
-        someHandler.canHandle(HandlerInput.builder()
-            .withRequestEnvelope(
-                RequestEnvelope.builder()
-                    .withContext(Context.builder()
-                        .withSystem(SystemState.builder()
-                            .withUser(User.builder()
-                                .withUserId(userId)
-                                .build())
-                            .build())
-                        .build())
-                    .build())
-            .build());
-    }
+  @Test
+  public void canHandleWithUserId() {
+    someHandler.canHandle(HandlerInput.builder()
+      .withRequestEnvelope(
+        RequestEnvelope.builder()
+          .withContext(Context.builder()
+            .withSystem(SystemState.builder()
+              .withUser(User.builder()
+                .withUserId(userId)
+                .build())
+              .build())
+            .build())
+          .build())
+      .build());
+  }
 
-    @Test
-    public void canHandleWithDeviceId() {
-        someHandler.canHandle(HandlerInput.builder()
-            .withRequestEnvelope(
-                RequestEnvelope.builder()
-                    .withContext(Context.builder()
-                        .withSystem(SystemState.builder()
-                            .withDevice(Device.builder()
-                                .withDeviceId(deviceId)
-                                .build())
-                            .build())
-                        .build())
-                    .build())
-            .build());
-    }
+  @Test
+  public void canHandleWithDeviceId() {
+    someHandler.canHandle(HandlerInput.builder()
+      .withRequestEnvelope(
+        RequestEnvelope.builder()
+          .withContext(Context.builder()
+            .withSystem(SystemState.builder()
+              .withDevice(Device.builder()
+                .withDeviceId(deviceId)
+                .build())
+              .build())
+            .build())
+          .build())
+      .build());
+  }
 
-    @Test
-    public void canHandleWithNoId() {
-        someHandler.canHandle(HandlerInput.builder()
-            .withRequestEnvelope(
-                RequestEnvelope.builder()
-                    .build())
-            .build());
-    }
+  @Test
+  public void canHandleWithNoId() {
+    someHandler.canHandle(HandlerInput.builder()
+      .withRequestEnvelope(
+        RequestEnvelope.builder()
+          .build())
+      .build());
+  }
 }

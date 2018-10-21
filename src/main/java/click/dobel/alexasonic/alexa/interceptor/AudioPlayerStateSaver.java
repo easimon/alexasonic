@@ -11,21 +11,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class AudioPlayerStateSaver implements RequestInterceptor {
 
-    private final DeviceSessionRepository deviceSessionRepository;
+  private final DeviceSessionRepository deviceSessionRepository;
 
-    @Autowired
-    public AudioPlayerStateSaver(final DeviceSessionRepository deviceSessionRepository) {
-        this.deviceSessionRepository = deviceSessionRepository;
-    }
+  @Autowired
+  public AudioPlayerStateSaver(final DeviceSessionRepository deviceSessionRepository) {
+    this.deviceSessionRepository = deviceSessionRepository;
+  }
 
-    @Override
-    public void process(final HandlerInput input) {
-        final DeviceSession session = deviceSessionRepository.getDeviceSession(input);
+  @Override
+  public void process(final HandlerInput input) {
+    final DeviceSession session = deviceSessionRepository.getDeviceSession(input);
 
-        SpeechletRequestUtil.getAudioPlayerState(input.getRequestEnvelope()).ifPresent(state -> {
-            session.setLastAudioPlayerToken(state.getToken());
-            session.setLastAudioPlayerOffsetInMilliseconds(state.getOffsetInMilliseconds());
-            deviceSessionRepository.saveDeviceSession(session, input);
-        });
-    }
+    SpeechletRequestUtil.getAudioPlayerState(input.getRequestEnvelope()).ifPresent(state -> {
+      session.setLastAudioPlayerToken(state.getToken());
+      session.setLastAudioPlayerOffsetInMilliseconds(state.getOffsetInMilliseconds());
+      deviceSessionRepository.saveDeviceSession(session, input);
+    });
+  }
 }

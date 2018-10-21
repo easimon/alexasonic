@@ -5,9 +5,9 @@ import org.subsonic.restapi.MusicFolder;
 import java.util.List;
 
 public class GetMusicFoldersRequestBuilder
-    extends AbstractSubsonicRequestBuilder<GetMusicFoldersRequestBuilder, List<MusicFolder>> {
+  extends AbstractSubsonicRequestBuilder<GetMusicFoldersRequestBuilder, List<MusicFolder>> {
 
-    GetMusicFoldersRequestBuilder() {
-        super("getMusicFolders");
-    }
+  GetMusicFoldersRequestBuilder() {
+    super("getMusicFolders");
+  }
 }

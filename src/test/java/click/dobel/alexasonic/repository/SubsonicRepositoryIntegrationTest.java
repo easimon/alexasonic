@@ -14,18 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SubsonicRepositoryIntegrationTest extends AbstractAlexaSonicIntegrationTest {
 
-    @ClassRule
-    public static DockerComposeRule docker = dockerClassRule();
+  @ClassRule
+  public static DockerComposeRule docker = dockerClassRule();
 
-    @Autowired
-    private SubsonicRepository repository;
+  @Autowired
+  private SubsonicRepository repository;
 
-    @Test
-    public void getAllArtists() {
-        final List<ArtistID3> allArtists = repository.getAllArtists(getTestCredentials());
-        assertThat(allArtists)
-            .hasSize(2);
-        assertThat(allArtists.stream().map(ArtistID3::getName).collect(Collectors.toList()))
-            .containsExactlyInAnyOrder("Artist Number 5", "Horst Honk");
-    }
+  @Test
+  public void getAllArtists() {
+    final List<ArtistID3> allArtists = repository.getAllArtists(getTestCredentials());
+    assertThat(allArtists)
+      .hasSize(2);
+    assertThat(allArtists.stream().map(ArtistID3::getName).collect(Collectors.toList()))
+      .containsExactlyInAnyOrder("Artist Number 5", "Horst Honk");
+  }
 }

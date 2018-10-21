@@ -4,7 +4,7 @@ import org.subsonic.restapi.License;
 
 public class GetLicenseRequestBuilder extends AbstractSubsonicRequestBuilder<GetLicenseRequestBuilder, License> {
 
-    GetLicenseRequestBuilder() {
-        super("getLicense");
-    }
+  GetLicenseRequestBuilder() {
+    super("getLicense");
+  }
 }

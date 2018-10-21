@@ -10,21 +10,21 @@ import java.util.Optional;
 
 public abstract class AbstractDeviceSessionAwareRequestHandler implements RequestHandler {
 
-    private final DeviceSessionRepository deviceSessionRepository;
+  private final DeviceSessionRepository deviceSessionRepository;
 
-    protected AbstractDeviceSessionAwareRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
-        this.deviceSessionRepository = deviceSessionRepository;
+  protected AbstractDeviceSessionAwareRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
+    this.deviceSessionRepository = deviceSessionRepository;
+  }
+
+  protected abstract Optional<Response> handle(HandlerInput input, DeviceSession deviceSession);
+
+  @Override
+  public final Optional<Response> handle(final HandlerInput input) {
+    final DeviceSession deviceSession = deviceSessionRepository.getDeviceSession(input);
+    try {
+      return handle(input, deviceSession);
+    } finally {
+      deviceSessionRepository.saveDeviceSession(deviceSession, input);
     }
-
-    protected abstract Optional<Response> handle(HandlerInput input, DeviceSession deviceSession);
-
-    @Override
-    public final Optional<Response> handle(final HandlerInput input) {
-        final DeviceSession deviceSession = deviceSessionRepository.getDeviceSession(input);
-        try {
-            return handle(input, deviceSession);
-        } finally {
-            deviceSessionRepository.saveDeviceSession(deviceSession, input);
-        }
-    }
+  }
 }

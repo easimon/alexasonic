@@ -3,36 +3,35 @@ package click.dobel.alexasonic.restclient.responseconverters;
 import org.subsonic.restapi.Response;
 
 public final class FlatteningSubsonicResponseConverter<T, F>
-    implements SubsonicResponseConverter<T>, SubsonicResponseFlattener<T, F> {
+  implements SubsonicResponseConverter<T>, SubsonicResponseFlattener<T, F> {
 
-    private final SubsonicResponseConverter<T> converter;
+  private final SubsonicResponseConverter<T> converter;
 
-    private final SubsonicResponseFlattener<T, F> flattener;
+  private final SubsonicResponseFlattener<T, F> flattener;
 
-    private FlatteningSubsonicResponseConverter(final SubsonicResponseConverter<T> converter,
-                                                final SubsonicResponseFlattener<T, F> flattener) {
-        this.converter = converter;
-        this.flattener = flattener;
-    }
+  private FlatteningSubsonicResponseConverter(final SubsonicResponseConverter<T> converter,
+                                              final SubsonicResponseFlattener<T, F> flattener) {
+    this.converter = converter;
+    this.flattener = flattener;
+  }
 
-    @SuppressWarnings("PMD.ShortMethodName")
-    public static <T, F> FlatteningSubsonicResponseConverter<T, F> of(final SubsonicResponseConverter<T> converter,
-                                                                      final SubsonicResponseFlattener<T, F> flattener) {
-        return new FlatteningSubsonicResponseConverter<>(converter, flattener);
-    }
+  @SuppressWarnings("PMD.ShortMethodName")
+  public static <T, F> FlatteningSubsonicResponseConverter<T, F> of(final SubsonicResponseConverter<T> converter,
+                                                                    final SubsonicResponseFlattener<T, F> flattener) {
+    return new FlatteningSubsonicResponseConverter<>(converter, flattener);
+  }
 
-    @Override
-    public T convert(final Response response) {
-        return converter.convert(response);
-    }
+  @Override
+  public T convert(final Response response) {
+    return converter.convert(response);
+  }
 
-    @Override
-    public F flatten(final T convertedResponse) {
-        return flattener.flatten(convertedResponse);
-    }
+  @Override
+  public F flatten(final T convertedResponse) {
+    return flattener.flatten(convertedResponse);
+  }
 
-    public F convertAndFlatten(final Response response) {
-        return flattener.flatten(converter.convert(response));
-    }
-
+  public F convertAndFlatten(final Response response) {
+    return flattener.flatten(converter.convert(response));
+  }
 }

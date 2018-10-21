@@ -19,41 +19,42 @@ import java.util.Optional;
 @Component
 public class PlaybackNearlyFinishedRequestHandler extends AbstractDeviceSessionAwareRequestHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PlaybackNearlyFinishedRequestHandler.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PlaybackNearlyFinishedRequestHandler.class);
 
-    @Autowired
-    public PlaybackNearlyFinishedRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
-        super(deviceSessionRepository);
+  @Autowired
+  public PlaybackNearlyFinishedRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
+    super(deviceSessionRepository);
+  }
+
+  @Override
+  public boolean canHandle(final HandlerInput input) {
+    return input.matches(Predicates.requestType(PlaybackNearlyFinishedRequest.class));
+  }
+
+  @Override
+  protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    final PlaybackNearlyFinishedRequest request
+      = (PlaybackNearlyFinishedRequest) input.getRequestEnvelope().getRequest();
+
+    final String currentToken = request.getToken();
+    final Playlist playlist = deviceSession.getPlaylist();
+
+    if (!playlist.hasItem(currentToken)) {
+      LOGGER.error("Current Playlist has no item with the token {}.", currentToken);
+      return Optional.empty();
     }
 
-    @Override
-    public boolean canHandle(final HandlerInput input) {
-        return input.matches(Predicates.requestType(PlaybackNearlyFinishedRequest.class));
+    if (!playlist.hasNext(currentToken)) {
+      LOGGER.debug("Playlist finished with token {}.", currentToken);
+      return Optional.empty();
     }
 
-    @Override
-    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
-        final PlaybackNearlyFinishedRequest request = (PlaybackNearlyFinishedRequest) input.getRequestEnvelope().getRequest();
+    final String currentUrl = playlist.get(currentToken);
+    final String nextUrl = playlist.nextOf(currentToken);
 
-        final String currentToken = request.getToken();
-        final Playlist playlist = deviceSession.getPlaylist();
-
-        if (!playlist.hasItem(currentToken)) {
-            LOGGER.error("Current Playlist has no item with the token {}.", currentToken);
-            return Optional.empty();
-        }
-
-        if (!playlist.hasNext(currentToken)) {
-            LOGGER.debug("Playlist finished with token {}.", currentToken);
-            return Optional.empty();
-        }
-
-        final String currentUrl = playlist.get(currentToken);
-        final String nextUrl = playlist.nextOf(currentToken);
-
-        return input.getResponseBuilder()
-            .addAudioPlayerPlayDirective(
-                PlayBehavior.ENQUEUE, null, currentToken, nextUrl, nextUrl)
-            .build();
-    }
+    return input.getResponseBuilder()
+      .addAudioPlayerPlayDirective(
+        PlayBehavior.ENQUEUE, null, currentToken, nextUrl, nextUrl)
+      .build();
+  }
 }

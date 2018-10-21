@@ -9,11 +9,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AlexaSonicApplicationTest extends AbstractAlexaSonicSpringTest {
 
-    @Autowired
-    private ApplicationContext context;
+  @Autowired
+  private ApplicationContext context;
 
-    @Test
-    public void testApplicationContextBuilds() {
-        assertThat(context).isNotNull();
-    }
+  @Test
+  public void testApplicationContextBuilds() {
+    assertThat(context).isNotNull();
+  }
 }

@@ -11,24 +11,23 @@ import java.util.Objects;
 @Component
 public class Messages {
 
-    private final MessageSource messageSource;
+  private final MessageSource messageSource;
 
-    @Autowired
-    public Messages(final MessageSource messageSource) {
-        Objects.requireNonNull(messageSource, "MessageSource may not be null.");
-        this.messageSource = messageSource;
+  @Autowired
+  public Messages(final MessageSource messageSource) {
+    Objects.requireNonNull(messageSource, "MessageSource may not be null.");
+    this.messageSource = messageSource;
+  }
+
+  public String getMessage(final String code, final Locale locale, final Object... args) {
+    return messageSource.getMessage(code, args, locale);
+  }
+
+  public String getMessage(final String code, final String defaultCode, final Locale locale, final Object... args) {
+    try {
+      return messageSource.getMessage(code, args, locale);
+    } catch (final NoSuchMessageException exception) {
+      return messageSource.getMessage(defaultCode, args, locale);
     }
-
-    public String getMessage(final String code, final Locale locale, final Object... args) {
-        return messageSource.getMessage(code, args, locale);
-    }
-
-    public String getMessage(final String code, final String defaultCode, final Locale locale, final Object... args) {
-        try {
-            return messageSource.getMessage(code, args, locale);
-        } catch (final NoSuchMessageException exception) {
-            return messageSource.getMessage(defaultCode, args, locale);
-        }
-    }
-
+  }
 }

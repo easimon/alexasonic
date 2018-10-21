@@ -7,10 +7,10 @@ import org.slf4j.LoggerFactory;
 
 public final class AspectUtil {
 
-    private AspectUtil() {
-    }
+  private AspectUtil() {
+  }
 
-    public static Logger logger(@NotNull final JoinPoint joinPoint) {
-        return LoggerFactory.getLogger(joinPoint.getTarget().getClass());
-    }
+  public static Logger logger(@NotNull final JoinPoint joinPoint) {
+    return LoggerFactory.getLogger(joinPoint.getTarget().getClass());
+  }
 }

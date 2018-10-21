@@ -17,32 +17,32 @@ import java.util.Optional;
 @Component
 public class PreviousIntentRequestHandler extends AbstractDeviceSessionAwareRequestHandler {
 
-    @Autowired
-    public PreviousIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
-        super(deviceSessionRepository);
-    }
+  @Autowired
+  public PreviousIntentRequestHandler(final DeviceSessionRepository deviceSessionRepository) {
+    super(deviceSessionRepository);
+  }
 
-    @Override
-    public boolean canHandle(final HandlerInput input) {
-        return input.matches(
-            Predicates.requestType(PreviousCommandIssuedRequest.class)
-                .or(Predicates.intentName("AMAZON.PreviousIntent"))
-        );
-    }
+  @Override
+  public boolean canHandle(final HandlerInput input) {
+    return input.matches(
+      Predicates.requestType(PreviousCommandIssuedRequest.class)
+        .or(Predicates.intentName("AMAZON.PreviousIntent"))
+    );
+  }
 
-    @Override
-    protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
-        final String currentToken = SpeechletRequestUtil.getAudioPlayerToken(input.getRequestEnvelope());
-        final String previousUrl = deviceSession.getPlaylist().previousOf(currentToken);
+  @Override
+  protected Optional<Response> handle(final HandlerInput input, final DeviceSession deviceSession) {
+    final String currentToken = SpeechletRequestUtil.getAudioPlayerToken(input.getRequestEnvelope());
+    final String previousUrl = deviceSession.getPlaylist().previousOf(currentToken);
 
-        return input.getResponseBuilder()
-            .addAudioPlayerPlayDirective(
-                PlayBehavior.REPLACE_ALL,
-                null,
-                null,
-                previousUrl,
-                previousUrl
-            )
-            .build();
-    }
+    return input.getResponseBuilder()
+      .addAudioPlayerPlayDirective(
+        PlayBehavior.REPLACE_ALL,
+        null,
+        null,
+        previousUrl,
+        previousUrl
+      )
+      .build();
+  }
 }

@@ -8,10 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class AlexaSonicApplication {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AlexaSonicApplication.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AlexaSonicApplication.class);
 
-
-    public static void main(final String[] args) {
-        SpringApplication.run(AlexaSonicApplication.class, args);
-    }
+  public static void main(final String[] args) {
+    SpringApplication.run(AlexaSonicApplication.class, args);
+  }
 }

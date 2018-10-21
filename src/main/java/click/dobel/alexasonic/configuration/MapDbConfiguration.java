@@ -11,19 +11,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MapDbConfiguration {
 
-    @Value("${application.db.path}")
-    private String dbFilesLocationString;
+  @Value("${application.db.path}")
+  private String dbFilesLocationString;
 
-    @Bean
-    public DbFactory dbFactory() {
-        return DbFactories.file(dbFilesLocationString);
-    }
+  @Bean
+  public DbFactory dbFactory() {
+    return DbFactories.file(dbFilesLocationString);
+  }
 
-    @Bean
-    public MapDbPersistenceAdapter mapDbPersistenceAdapter() {
-        return new MapDbPersistenceAdapter(
-            dbFactory(),
-            "sessions",
-            SpeechletRequestUtil::getDeviceId);
-    }
+  @Bean
+  public MapDbPersistenceAdapter mapDbPersistenceAdapter() {
+    return new MapDbPersistenceAdapter(
+      dbFactory(),
+      "sessions",
+      SpeechletRequestUtil::getDeviceId);
+  }
 }

@@ -4,8 +4,7 @@ import org.subsonic.restapi.ResponseStatus;
 
 public class PingRequestBuilder extends AbstractSubsonicRequestBuilder<PingRequestBuilder, ResponseStatus> {
 
-    PingRequestBuilder() {
-        super("ping");
-    }
-
+  PingRequestBuilder() {
+    super("ping");
+  }
 }

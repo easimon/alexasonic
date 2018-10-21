@@ -12,13 +12,13 @@ import java.util.Optional;
 @Component
 public class PlaybackStartedHandler implements RequestHandler {
 
-    @Override
-    public boolean canHandle(final HandlerInput input) {
-        return input.matches(Predicates.requestType(PlaybackStartedRequest.class));
-    }
+  @Override
+  public boolean canHandle(final HandlerInput input) {
+    return input.matches(Predicates.requestType(PlaybackStartedRequest.class));
+  }
 
-    @Override
-    public Optional<Response> handle(final HandlerInput input) {
-        return Optional.empty();
-    }
+  @Override
+  public Optional<Response> handle(final HandlerInput input) {
+    return Optional.empty();
+  }
 }
