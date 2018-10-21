@@ -11,12 +11,12 @@ import static org.assertj.core.api.Assertions.*;
 
 @RunWith(Spectrum.class)
 public class PlaylistSpecTest {
+
+  private static final String EXISTING_1 = "one";
+  private static final String EXISTING_2 = "two";
+  private static final String NON_EXISTING_1 = "n_one";
+
   {
-
-    final String EXISTING_1 = "one";
-    final String EXISTING_2 = "two";
-    final String NON_EXISTING_1 = "n_one";
-
     describe(Playlist.class.getSimpleName(), () -> {
 
       describe("#get", () -> {
