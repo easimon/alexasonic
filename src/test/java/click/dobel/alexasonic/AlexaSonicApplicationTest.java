@@ -13,7 +13,7 @@ public class AlexaSonicApplicationTest extends AbstractAlexaSonicSpringTest {
   private ApplicationContext context;
 
   @Test
-  public void testApplicationContextBuilds() {
+  public void applicationContextBuilds() {
     assertThat(context).isNotNull();
   }
 }

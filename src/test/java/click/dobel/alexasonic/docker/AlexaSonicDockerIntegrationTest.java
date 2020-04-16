@@ -17,7 +17,7 @@ public class AlexaSonicDockerIntegrationTest extends AbstractAlexaSonicIntegrati
   public static DockerComposeRule docker = dockerClassRule();
 
   @Test
-  public void test() {
+  public void containerStarts() {
     LOGGER.info("=====================");
     LOGGER.info("Docker ports exposed:");
     docker
