@@ -15,14 +15,14 @@ public class MapDbConfiguration {
   private String dbFilesLocationString;
 
   @Bean
-  public DbFactory dbFactory() {
+  public DbFactory persistentDbFactory() {
     return DbFactories.file(dbFilesLocationString);
   }
 
   @Bean
-  public MapDbPersistenceAdapter mapDbPersistenceAdapter() {
+  public MapDbPersistenceAdapter mapDbPersistenceAdapter(final DbFactory dbFactory) {
     return new MapDbPersistenceAdapter(
-      dbFactory(),
+      dbFactory,
       "sessions",
       SpeechletRequestUtil::getDeviceId);
   }
